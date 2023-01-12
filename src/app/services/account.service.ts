@@ -21,7 +21,11 @@ export class AccountService {
 
   public setSession(user: Account) {
     this.session = user
-    localStorage.setItem('lastLogin', JSON.stringify(user))
+    if (user.id) {
+      localStorage.setItem('lastLogin', JSON.stringify(user))
+    } else {
+      localStorage.removeItem('lastLogin')
+    }
   }
 
   public getSession(): Account {
@@ -33,8 +37,12 @@ export class AccountService {
       next: (response) => {
         this.setSession(response)
       },
-      error: (error) => this.prompt(error.message)
+      error: (error) => {this.prompt(error.error.message); console.log(error)}
     })
+  }
+
+  public logout() {
+    this.setSession(new Account(null, '', ''))
   }
 
   public add(username: string, password: string) {
@@ -43,7 +51,7 @@ export class AccountService {
       next: (response) => {
         this.setSession(response)
       },
-      error: (error) => this.prompt(error.message)
+      error: (error) => this.prompt(error.error.message)
     })
   }
 

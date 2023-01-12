@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { AccountService } from 'src/app/services/account.service';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 
@@ -12,7 +13,7 @@ import { RegisterComponent } from '../register/register.component';
 export class NavComponent {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger | undefined;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, public account: AccountService) {}
 
   openLogin() {
     const dialogRef = this.dialog.open(LoginComponent, {restoreFocus: false});
