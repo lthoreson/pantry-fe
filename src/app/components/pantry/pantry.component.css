@@ -1,6 +1,18 @@
-.example-card {
+mat-card {
     max-width: 200px;
     margin: 10px;
+}
+
+.add-card {
+    width: 130px;
+}
+.add-card:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+.add-icon {
+    font-size: 50px;
+    margin: auto;
 }
 
 .example-header-image {

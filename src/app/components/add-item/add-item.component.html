@@ -12,8 +12,16 @@
             <mat-label>Image</mat-label>
             <input matInput #image>
         </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Weight</mat-label>
+            <input matInput type="number" #weight>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Calories</mat-label>
+            <input matInput type="number" #calories>
+        </mat-form-field>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close color="primary" (click)="pantry.add(name.value, quantity.value, image.value)">Submit</button>
+    <button mat-raised-button mat-dialog-close color="primary" (click)="pantry.add(name.value, quantity.value, image.value, weight.value, calories.value)">Submit</button>
 </mat-dialog-actions>

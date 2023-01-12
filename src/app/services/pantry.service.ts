@@ -26,8 +26,8 @@ export class PantryService {
     })
   }
 
-  public add(name: string, quantity: string, image: string) {
-    const newItem = new Item(null, name, Number(quantity), image)
+  public add(name: string, quantity: string, image: string, weight: string, calories: string) {
+    const newItem = new Item(null, name, Number(quantity), image, Number(weight), Number(calories))
     this.http.post<Item>(this.url, newItem).pipe(take(1)).subscribe({
       next: (response) => {
         this.account.prompt('Item sucessfully added :)')
