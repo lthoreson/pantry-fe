@@ -1,5 +1,5 @@
 <div>
-    <h1>Pantry</h1>
+    <h1>My Recipes</h1>
 
     <div class="flex-container">
         <mat-card *ngIf="account.getSession().id !== null" class="add-card" (click)="openAdd()">
@@ -7,15 +7,14 @@
                 <mat-icon [inline]="true" color="accent">add</mat-icon>
             </div>
         </mat-card>
-        <mat-card class="example-card" *ngFor="let item of pantry.getPantry()">
+        <mat-card class="example-card" *ngFor="let recipe of account.getSession().recipes">
             <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url({{item.image}});"></div>
-                <mat-card-title>{{item.name}}</mat-card-title>
-                <mat-card-subtitle>{{item.quantity}} left</mat-card-subtitle>
+                <div mat-card-avatar class="example-header-image" style="background-image: url({{recipe.image}});"></div>
+                <mat-card-title>{{recipe.name}}</mat-card-title>
+                <mat-card-subtitle>{{recipe.ingredients.length}} items</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                <p>Weight: {{item.weight}}</p>
-                <p>Calories: {{item.calories}}</p>
+                <p *ngFor="let i of recipe.ingredients">{{i.item.name}}</p>
             </mat-card-content>
             <!-- <mat-card-actions>
                 <button mat-button>LIKE</button>

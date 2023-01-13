@@ -20,6 +20,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { PantryComponent } from './components/pantry/pantry.component';
 import {MatCardModule} from '@angular/material/card';
 import { AddItemComponent } from './components/add-item/add-item.component';
+import { RecipeBookComponent } from './components/recipe-book/recipe-book.component';
+import { AddRecipeComponent } from './components/add-recipe/add-recipe.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { AddItemComponent } from './components/add-item/add-item.component';
     LoginComponent,
     RegisterComponent,
     PantryComponent,
-    AddItemComponent
+    AddItemComponent,
+    RecipeBookComponent,
+    AddRecipeComponent
   ],
   imports: [
     BrowserModule,

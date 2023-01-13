@@ -11,13 +11,10 @@ import { AddItemComponent } from '../add-item/add-item.component';
   styleUrls: ['./pantry.component.css']
 })
 export class PantryComponent {
-  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger | undefined;
-
   constructor(public dialog: MatDialog, public account: AccountService, public pantry: PantryService) {}
 
   openAdd() {
     const dialogRef = this.dialog.open(AddItemComponent, {restoreFocus: false});
-    dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
   }
 
 }
