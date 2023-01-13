@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { Account } from '../data/Account';
+import { Ingredient } from '../data/Ingredient';
+import { Recipe } from '../data/Recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,7 @@ export class AccountService {
     }
   }
 
-  public setSession(user: Account) {
+  public setSession(user: Account): void {
     this.session = user
     if (user.id) {
       localStorage.setItem('lastLogin', JSON.stringify(user))
@@ -32,7 +34,7 @@ export class AccountService {
     return this.session
   }
 
-  public login(username: string, password: string) {
+  public login(username: string, password: string): void {
     this.http.get<Account>(`${this.url}?username=${username}&password=${password}`).pipe(take(1)).subscribe({
       next: (response) => {
         this.setSession(response)
@@ -45,7 +47,7 @@ export class AccountService {
     this.setSession(new Account(null, '', '', []))
   }
 
-  public add(username: string, password: string) {
+  public add(username: string, password: string): void {
     const newAccount = new Account(null, username, password,[])
     this.http.post<Account>(this.url, newAccount).pipe(take(1)).subscribe({
       next: (response) => {
@@ -55,7 +57,18 @@ export class AccountService {
     })
   }
 
-  public prompt(message: string) {
+  public addRecipe(name: string, image: string, ingredients: Ingredient[], steps: string[]): void {
+    const newRecipe = new Recipe(null, name, this.session, image, ingredients, steps)
+    this.http.post<Recipe>('http://localhost:8080/recipe', newRecipe).pipe(take(1)).subscribe({
+      next: (response) => {
+        this.session.recipes.push(response)
+        this.prompt("recipe added :)")
+      },
+      error: (error) => this.prompt(error.error.message)
+    })
+  }
+
+  public prompt(message: string): void {
     this.snack.open(message, "Close")
   }
 }

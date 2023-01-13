@@ -22,6 +22,8 @@ import {MatCardModule} from '@angular/material/card';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { RecipeBookComponent } from './components/recipe-book/recipe-book.component';
 import { AddRecipeComponent } from './components/add-recipe/add-recipe.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,10 @@ import { AddRecipeComponent } from './components/add-recipe/add-recipe.component
     MatSelectModule,
     MatInputModule,
     MatSnackBarModule,
-    MatCardModule
+    MatCardModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

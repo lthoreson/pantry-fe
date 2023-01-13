@@ -33,7 +33,7 @@ export class PantryService {
         this.account.prompt('Item sucessfully added :)')
         this.loadPantry()
       },
-      error: (error) => {this.account.prompt('Failed to add item to the pantry :(')}
+      error: (error) => {this.account.prompt(error.error.message)}
     })
   }
 
