@@ -10,18 +10,26 @@
                 <mat-icon [inline]="true" color="accent">add</mat-icon>
             </div>
         </mat-card>
-        <mat-card class="example-card" *ngFor="let recipe of account.getSession().recipes" (click)="openRecipe(recipe)">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url({{recipe.image}});">
-                </div>
-                <mat-card-title>{{recipe.name}}</mat-card-title>
-                <button mat-icon-button color="primary"
-                    (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
-                <mat-card-subtitle>{{recipe.ingredients.length}} ingredient(s)</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p *ngFor="let i of recipe.ingredients">{{i.item.name}}</p>
-            </mat-card-content>
-        </mat-card>
+        <div *ngFor="let recipe of account.getSession().recipes" class="recipe-card">
+            <mat-card class="example-card" (click)="openRecipe(recipe)">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url({{recipe.image}});">
+                    </div>
+                    <mat-card-title>{{recipe.name}}</mat-card-title>
+                    <span class="button-spacer"></span>
+                    <mat-card-subtitle>{{recipe.ingredients.length}} ingredient(s)</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-chip-listbox aria-label="ingredients of recipe">
+                        <mat-chip *ngFor="let i of recipe.ingredients">
+                          <img matChipAvatar src="{{i.item.image}}" alt="Photo of {{i.item.name}}"/>
+                          {{i.item.name}}
+                        </mat-chip>
+                      </mat-chip-listbox>
+                </mat-card-content>
+            </mat-card>
+            <button mat-icon-button color="primary" class="edit-button"
+                        (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
+        </div>
     </div>
 </div>

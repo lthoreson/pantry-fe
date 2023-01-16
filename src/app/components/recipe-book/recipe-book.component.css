@@ -1,7 +1,27 @@
+/* see global styles.css */
+
+/* log in and register buttons */
 .account-buttons button {
     margin: 1rem;
 }
+
+/* indicates recipes are clickable */
 mat-card:hover {
-    background-color: lightgray;
-    cursor: pointer; 
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.recipe-card {
+    position: relative;
+}
+
+.button-spacer {
+    width: 30px;
+    height: 30px;
+}
+
+.edit-button {
+    position: absolute;
+    right: 23px;
+    top: 10px;
 }

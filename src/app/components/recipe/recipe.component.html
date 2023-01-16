@@ -1,9 +1,10 @@
 <mat-dialog-content>
     <h1>{{recipe.name}}</h1>
+    <img src="{{recipe.image}}" alt="Photo of {{recipe.name}}">
     <h2>Ingredients</h2>
-    <ol>
+    <ul>
         <li *ngFor="let ingredient of recipe.ingredients">{{ingredient.item.name}}: {{ingredient.weight}}</li>
-    </ol>
+    </ul>
     <h2>Steps</h2>
     <ol>
         <li *ngFor="let step of recipe.steps">{{step}}</li>

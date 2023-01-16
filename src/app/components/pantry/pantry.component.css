@@ -1,8 +1,6 @@
-mat-card-header {
-    padding-bottom: 0;
-    margin-bottom: 0;
-}
+/* see global styles.css */
 
+/* item buttons for increment/decrement */
 mat-card-actions {
     display: flex;
     justify-content: center;

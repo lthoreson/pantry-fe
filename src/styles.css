@@ -5,7 +5,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 h1 {
     margin: 2rem;
 }
-
+/* 2 containers for recipe and item cards */
 .flex-container {
     display: flex;
     flex-wrap: wrap;
@@ -15,21 +15,21 @@ h1 {
 mat-card {
     margin-right: 1rem;
 }
-
+/* buttons for adding new items and recipes */
 .add-card {
     width: 130px;
 }
-
+/* plus sign inside the "add new __" buttons */
 .add-icon {
     font-size: 50px;
     margin: auto;
 }
-
+/* indicates card is clickable */
 .add-card:hover {
-    background-color: lightgray;
+    background-color: whitesmoke;
     cursor: pointer;
 }
-
+/* avatar for item and recipe cards*/
 .example-header-image {
     background-size: cover;
     margin: 0 !important;
