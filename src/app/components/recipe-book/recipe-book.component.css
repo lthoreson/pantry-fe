@@ -6,7 +6,7 @@ mat-card {
 .add-card {
     width: 130px;
 }
-.add-card:hover {
+mat-card:hover {
     background-color: lightgray;
     cursor: pointer;
 }

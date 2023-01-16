@@ -1,0 +1,14 @@
+<mat-dialog-content>
+    <h1>{{recipe.name}}</h1>
+    <h2>Ingredients</h2>
+    <ol>
+        <li *ngFor="let ingredient of recipe.ingredients">{{ingredient.item.name}}: {{ingredient.weight}}</li>
+    </ol>
+    <h2>Steps</h2>
+    <ol>
+        <li *ngFor="let step of recipe.steps">{{step}}</li>
+    </ol>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button color="warn" (click)="pantry.takeItems(recipe)">Make Recipe</button>
+</mat-dialog-actions>

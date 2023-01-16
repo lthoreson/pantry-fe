@@ -24,6 +24,7 @@ import { RecipeBookComponent } from './components/recipe-book/recipe-book.compon
 import { AddRecipeComponent } from './components/add-recipe/add-recipe.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RecipeComponent } from './components/recipe/recipe.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PantryComponent,
     AddItemComponent,
     RecipeBookComponent,
-    AddRecipeComponent
+    AddRecipeComponent,
+    RecipeComponent
   ],
   imports: [
     BrowserModule,

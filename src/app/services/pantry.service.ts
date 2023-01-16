@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs';
 import { Item } from '../data/Item';
+import { Recipe } from '../data/Recipe';
 import { AccountService } from './account.service';
 
 @Injectable({
@@ -34,6 +35,30 @@ export class PantryService {
         this.loadPantry()
       },
       error: (error) => {this.account.prompt(error.error.message)}
+    })
+  }
+
+  public takeItems(recipe: Recipe) {
+    this.http.put<Item[]>(this.url+'/take', recipe).pipe(take(1)).subscribe({
+      next: (response) => {
+        this.pantry = response
+        this.account.prompt(`Ingredients for ${recipe.name} were removed from the pantry`)
+      },
+      error: (error) => {this.account.prompt(error.error.message)}
+    })
+  }
+
+  public incrementItem(item: Item, positive: boolean) {
+    if (item.quantity <= 0 && positive === false) {
+      return
+    }
+    positive? item.quantity++ : item.quantity--
+    this.http.put<Item>(this.url, item).pipe(take(1)).subscribe({
+      next: (response) => {},
+      error: (error) => {
+        positive? item.quantity-- : item.quantity++
+        this.account.prompt(error.error.message)
+      }
     })
   }
 

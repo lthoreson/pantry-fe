@@ -1,6 +1,5 @@
 <div>
     <h1>Pantry</h1>
-
     <div class="flex-container">
         <mat-card *ngIf="account.getSession().id !== null" class="add-card" (click)="openAdd()">
             <div class="add-icon">
@@ -13,14 +12,14 @@
                 <mat-card-title>{{item.name}}</mat-card-title>
                 <mat-card-subtitle>{{item.quantity}} left</mat-card-subtitle>
             </mat-card-header>
+            <mat-card-actions>
+                <button mat-button (click)="pantry.incrementItem(item, false)" color="warn"><mat-icon>remove_circle_outline</mat-icon></button>
+                <button mat-button (click)="pantry.incrementItem(item, true)" color="primary"><mat-icon>add_circle_outline</mat-icon></button>
+            </mat-card-actions>
             <mat-card-content>
                 <p>Weight: {{item.weight}}</p>
                 <p>Calories: {{item.calories}}</p>
             </mat-card-content>
-            <!-- <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions> -->
         </mat-card>
     </div>
 </div>

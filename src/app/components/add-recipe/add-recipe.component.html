@@ -1,4 +1,7 @@
+<!-- Popup for creating a recipe with steps for each required property -->
 <mat-dialog-content>
+    <h1>Add Recipe</h1>
+    <!-- Name step -->
     <mat-stepper orientation="vertical" [linear]="true" #stepper>
         <mat-step [stepControl]="firstFormGroup">
             <form [formGroup]="firstFormGroup">
@@ -12,9 +15,10 @@
                 </div>
             </form>
         </mat-step>
+        <!-- Image step -->
         <mat-step [stepControl]="secondFormGroup">
             <form [formGroup]="secondFormGroup">
-                <ng-template matStepLabel>Copy an image address</ng-template>
+                <ng-template matStepLabel><a href="https://www.google.com/search?q={{name.value}}&tbm=isch" target="_blank">Copy an image address (click me)</a></ng-template>
                 <mat-form-field appearance="fill">
                     <mat-label>Image</mat-label>
                     <input matInput formControlName="secondCtrl"
@@ -27,10 +31,11 @@
                 </div>
             </form>
         </mat-step>
+        <!-- Ingredients step -->
         <mat-step [stepControl]="thirdFormGroup">
             <form [formGroup]="thirdFormGroup">
                 <ng-template matStepLabel>Add ingredients</ng-template>
-                <mat-form-field *ngFor="let ingredient of ingredients" appearance="fill">
+                <mat-form-field *ngFor="let ingredient of ingredients" appearance="outline">
                     <mat-label>{{ingredient.item.name}}</mat-label>
                     <input matInput type="number" min="0" formControlName="{{ingredient.item.name}}">
                 </mat-form-field>
@@ -40,6 +45,24 @@
                 </div>
             </form>
         </mat-step>
+        <!-- Recipe steps  step -->
+        <mat-step [stepControl]="fourthFormGroup">
+            <form [formGroup]="fourthFormGroup">
+                <ng-template matStepLabel>Add steps</ng-template>
+                <mat-form-field formArrayName="steps" *ngFor="let alias of steps.controls; let i = index" appearance="fill" class="step-input">
+                    <mat-label>Step {{i + 1}}</mat-label>
+                    <textarea matInput [formControlName]="i"></textarea>
+                </mat-form-field>
+                <div>
+                    <button mat-icon-button color="accent" (click)="addStep()"><mat-icon>add</mat-icon></button>
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <!-- Submission step -->
         <mat-step>
             <ng-template matStepLabel>Done</ng-template>
             <p>Click submit to add your recipe.</p>
@@ -51,10 +74,10 @@
     </mat-stepper>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close color="primary" (click)="account.addRecipe(
+    <button mat-raised-button mat-dialog-close color="primary" [disabled]="!secondFormGroup.valid" (click)="account.addRecipe(
         name.value, 
         image.value, 
         filterIngredients(),
-        []
+        filterSteps()
         )">Submit</button>
 </mat-dialog-actions>
