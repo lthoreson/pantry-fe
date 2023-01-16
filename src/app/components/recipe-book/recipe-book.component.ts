@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Recipe } from 'src/app/data/Recipe';
 import { AccountService } from 'src/app/services/account.service';
 import { AddRecipeComponent } from '../add-recipe/add-recipe.component';
+import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { RecipeComponent } from '../recipe/recipe.component';
 
 @Component({
@@ -15,6 +16,10 @@ export class RecipeBookComponent {
 
   openAdd() {
     const dialogRef = this.dialog.open(AddRecipeComponent, {restoreFocus: false});
+  }
+
+  openEdit(recipe: Recipe) {
+    const dialogRef = this.dialog.open(EditRecipeComponent, {restoreFocus: false, data: recipe});
   }
 
   openRecipe(recipe: Recipe) {

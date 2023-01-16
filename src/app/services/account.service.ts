@@ -68,6 +68,18 @@ export class AccountService {
     })
   }
 
+  public modRecipe(id: number | null, name: string, image: string, ingredients: Ingredient[], steps: string[]): void {
+    const updatedRecipe = new Recipe(id, name, this.session, image, ingredients, steps)
+    this.http.put<Recipe>('http://localhost:8080/recipe', updatedRecipe).pipe(take(1)).subscribe({
+      next: (response) => {
+        const recipeIndex = this.session.recipes.findIndex((r) => r.id === response.id)
+        this.session.recipes[recipeIndex] = response
+        this.prompt("recipe edit successful")
+      },
+      error: (error) => this.prompt(error.error.message)
+    })
+  }
+
   public prompt(message: string): void {
     this.snack.open(message, "Close")
   }

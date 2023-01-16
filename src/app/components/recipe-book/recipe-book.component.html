@@ -16,10 +16,9 @@
             <mat-card-content>
                 <p *ngFor="let i of recipe.ingredients">{{i.item.name}}</p>
             </mat-card-content>
-            <!-- <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions> -->
+            <mat-card-actions>
+                <button mat-icon-button color="primary" (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
+            </mat-card-actions>
         </mat-card>
     </div>
 </div>

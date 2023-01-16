@@ -1,0 +1,15 @@
+button {
+    margin: auto;
+  }
+  
+  .mat-stepper-vertical {
+    margin-top: 8px;
+  }
+  
+  .mat-mdc-form-field {
+    margin-top: 16px;
+  }
+  
+  .step-input {
+    width: 100%;
+  }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Ingredient } from 'src/app/data/Ingredient';
 import { AccountService } from 'src/app/services/account.service';
 import { PantryService } from 'src/app/services/pantry.service';
@@ -15,19 +15,22 @@ export class AddRecipeComponent {
   firstFormGroup = this.fb.group({
     firstCtrl: ['', Validators.required],
   });
+
   secondFormGroup = this.fb.group({
     secondCtrl: ['', Validators.required],
   });
+
   thirdFormGroup = this.fb.group({});
+
   fourthFormGroup = this.fb.group({
     steps: this.fb.array([new FormControl('')])
   });
+
   constructor(public account: AccountService, public pantry: PantryService, private fb: FormBuilder) {
     this.ingredients = this.pantry.getPantry().map((i) => new Ingredient(i, 0))
     for (let i of this.ingredients) {
       this.addCon(i.item.name)
     }
-    console.log(this.thirdFormGroup.value)
   }
 
   public addCon(name: string): void {
