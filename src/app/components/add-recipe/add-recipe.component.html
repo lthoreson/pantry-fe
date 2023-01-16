@@ -3,8 +3,8 @@
     <h1>Add Recipe</h1>
     <!-- Name step -->
     <mat-stepper orientation="vertical" [linear]="true" #stepper>
-        <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
+        <mat-step [stepControl]="nameFormGroup">
+            <form [formGroup]="nameFormGroup">
                 <ng-template matStepLabel>Enter the recipe name</ng-template>
                 <mat-form-field appearance="fill">
                     <mat-label>Name</mat-label>
@@ -16,8 +16,8 @@
             </form>
         </mat-step>
         <!-- Image step -->
-        <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
+        <mat-step [stepControl]="imageFormGroup">
+            <form [formGroup]="imageFormGroup">
                 <ng-template matStepLabel><a href="https://www.google.com/search?q={{name.value}}&tbm=isch" target="_blank">Copy an image address (click me)</a></ng-template>
                 <mat-form-field appearance="fill">
                     <mat-label>Image</mat-label>
@@ -32,8 +32,8 @@
             </form>
         </mat-step>
         <!-- Ingredients step -->
-        <mat-step [stepControl]="thirdFormGroup">
-            <form [formGroup]="thirdFormGroup">
+        <mat-step [stepControl]="ingredientsFormGroup">
+            <form [formGroup]="ingredientsFormGroup">
                 <ng-template matStepLabel>Add ingredients</ng-template>
                 <mat-form-field *ngFor="let ingredient of ingredients" appearance="outline">
                     <mat-label>{{ingredient.item.name}}</mat-label>
@@ -46,8 +46,8 @@
             </form>
         </mat-step>
         <!-- Recipe steps  step -->
-        <mat-step [stepControl]="fourthFormGroup">
-            <form [formGroup]="fourthFormGroup">
+        <mat-step [stepControl]="stepsFormGroup">
+            <form [formGroup]="stepsFormGroup">
                 <ng-template matStepLabel>Add steps</ng-template>
                 <mat-form-field formArrayName="steps" *ngFor="let alias of steps.controls; let i = index" appearance="fill" class="step-input">
                     <mat-label>Step {{i + 1}}</mat-label>
@@ -74,7 +74,7 @@
     </mat-stepper>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close color="primary" [disabled]="!secondFormGroup.valid" (click)="account.addRecipe(
+    <button mat-raised-button mat-dialog-close color="primary" [disabled]="!nameFormGroup.valid || !imageFormGroup.valid || !ingredientsFormGroup.valid" (click)="account.addRecipe(
         name.value, 
         image.value, 
         filterIngredients(),

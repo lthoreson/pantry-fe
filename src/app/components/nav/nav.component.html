@@ -11,7 +11,7 @@
         <mat-menu #menu="matMenu">
             <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openLogin()">Log In</button>
             <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openRegister()">Register</button>
-            <button *ngIf="account.getSession().id !== null" mat-menu-item>{{account.getSession().username}}</button>
+            <button *ngIf="account.getSession().id !== null" mat-menu-item (click)="openAccount()">{{account.getSession().username}}</button>
             <button *ngIf="account.getSession().id !== null" mat-menu-item (click)="account.logout()">
                 <mat-icon>exit_to_app</mat-icon>
                 Log Out

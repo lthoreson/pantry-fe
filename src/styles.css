@@ -14,6 +14,7 @@ h1 {
 
 mat-card {
     margin-right: 1rem;
+    margin-bottom: 1rem;
 }
 /* buttons for adding new items and recipes */
 .add-card {

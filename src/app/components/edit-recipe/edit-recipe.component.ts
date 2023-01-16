@@ -15,28 +15,28 @@ import { PantryService } from 'src/app/services/pantry.service';
 export class EditRecipeComponent {
   ingredients: Ingredient[]
 
-  // name form step input
-  firstFormGroup = this.fb.group({
+  // stores validated recipe name input
+  nameFormGroup = this.fb.group({
     firstCtrl: [this.recipe.name, Validators.required],
   });
 
-  // image form step input
-  secondFormGroup = this.fb.group({
+  // stores validated recipe image input
+  imageFormGroup = this.fb.group({
     secondCtrl: [this.recipe.image, Validators.required],
   });
 
-  // ingredients form step inputs
-  thirdFormGroup = this.fb.group({});
+  // stores validated recipe ingredient inputs
+  ingredientsFormGroup = this.fb.group({});
 
-  // steps form step inputs
-  fourthFormGroup = this.fb.group({
+  // stores recipe step inputs
+  stepsFormGroup = this.fb.group({
     steps: this.fb.array([])
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public recipe: Recipe, public account: AccountService, public pantry: PantryService, private fb: FormBuilder) {
-    // build ingredient objects for all items with initial weight of zero
+    // Build ingredient list from pantry items. Set initial weight to zero.
     this.ingredients = this.pantry.getPantry().map((item) => new Ingredient(item, 0))
-    // copy weights from recipe into this.ingredients
+    // copy ingredient weights from recipe into this.ingredients
     for (let ingredient of this.recipe.ingredients) {
       const target = this.ingredients.find((i) => i.item.id === ingredient.item.id)
       if (target) {
@@ -50,18 +50,18 @@ export class EditRecipeComponent {
 
     // add a a form control for each ingredient by name to store the input values
     for (let i of this.ingredients) {
-      this.addCon(i.item.name, i.weight)
+      this.addIngredientControl(i.item.name, i.weight)
     }
   }
 
   // add ingredient form control
-  public addCon(name: string, weight: number): void {
-    this.thirdFormGroup.addControl(name, new FormControl(weight))
+  public addIngredientControl(name: string, weight: number): void {
+    this.ingredientsFormGroup.addControl(name, new FormControl(weight))
   }
 
   // getter function for FormArray of form control aliases
   public get steps(): FormArray {
-    return this.fourthFormGroup.get('steps') as FormArray
+    return this.stepsFormGroup.get('steps') as FormArray
   }
 
   // adds a step when user clicks
@@ -71,7 +71,7 @@ export class EditRecipeComponent {
 
   // remove blanks from ingredients
   public filterIngredients(): Ingredient[] {
-    this.ingredients.forEach((value) => value.weight = Number(this.thirdFormGroup.value[value.item.name as keyof Object]))
+    this.ingredients.forEach((value) => value.weight = Number(this.ingredientsFormGroup.value[value.item.name as keyof Object]))
     return this.ingredients.filter((i) => i.weight > 0)
   }
 

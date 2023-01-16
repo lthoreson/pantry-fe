@@ -80,6 +80,26 @@ export class AccountService {
     })
   }
 
+  public modAccount(username: string, password: string): void {
+    const updatedAccount = new Account(this.session.id, username, password, this.session.recipes)
+    this.http.put<Account>(`${this.url}?username=${this.session.username}&password=${this.session.password}`, updatedAccount).pipe(take(1)).subscribe({
+      next: (response) => {
+        this.setSession(response)
+        this.prompt("account update successful")
+      },
+      error: (error) => this.prompt(error.error.message)
+    })
+  }
+
+  public deleteAccount(): void {
+    this.http.delete(`${this.url}/${this.session.id}?username=${this.session.username}&password=${this.session.password}`).pipe(take(1)).subscribe({
+      next: () => {
+        this.prompt("account deleted")
+      },
+      error: (error) => this.prompt(error.error.message)
+    })
+  }
+
   public prompt(message: string): void {
     this.snack.open(message, "Close")
   }

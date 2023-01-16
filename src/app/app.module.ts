@@ -28,6 +28,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatChipsModule} from '@angular/material/chips';
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {MatChipsModule} from '@angular/material/chips';
     AddRecipeComponent,
     RecipeComponent,
     EditItemComponent,
-    EditRecipeComponent
+    EditRecipeComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
