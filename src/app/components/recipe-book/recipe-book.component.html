@@ -1,24 +1,27 @@
-<div>
+<div *ngIf="account.getSession().id === null" class="account-buttons">
+    <button mat-raised-button color="primary" (click)="openLogin()">Log In</button>
+    <button mat-raised-button (click)="openRegister()">Register</button>
+</div>
+<div *ngIf="account.getSession().id !== null">
     <h1>My Recipes</h1>
-
     <div class="flex-container">
-        <mat-card *ngIf="account.getSession().id !== null" class="add-card" (click)="openAdd()">
+        <mat-card class="add-card" (click)="openAdd()">
             <div class="add-icon">
                 <mat-icon [inline]="true" color="accent">add</mat-icon>
             </div>
         </mat-card>
         <mat-card class="example-card" *ngFor="let recipe of account.getSession().recipes" (click)="openRecipe(recipe)">
             <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url({{recipe.image}});"></div>
+                <div mat-card-avatar class="example-header-image" style="background-image: url({{recipe.image}});">
+                </div>
                 <mat-card-title>{{recipe.name}}</mat-card-title>
-                <mat-card-subtitle>{{recipe.ingredients.length}} items</mat-card-subtitle>
+                <button mat-icon-button color="primary"
+                    (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
+                <mat-card-subtitle>{{recipe.ingredients.length}} ingredient(s)</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
                 <p *ngFor="let i of recipe.ingredients">{{i.item.name}}</p>
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-icon-button color="primary" (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
-            </mat-card-actions>
         </mat-card>
     </div>
 </div>

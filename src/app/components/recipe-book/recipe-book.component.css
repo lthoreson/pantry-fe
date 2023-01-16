@@ -1,25 +1,7 @@
-mat-card {
-    max-width: 200px;
-    margin: 10px;
-}
-
-.add-card {
-    width: 130px;
+.account-buttons button {
+    margin: 1rem;
 }
 mat-card:hover {
     background-color: lightgray;
-    cursor: pointer;
-}
-.add-icon {
-    font-size: 50px;
-    margin: auto;
-}
-
-.example-header-image {
-    background-size: cover;
-}
-
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
+    cursor: pointer; 
 }

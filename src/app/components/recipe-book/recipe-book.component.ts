@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Recipe } from 'src/app/data/Recipe';
 import { AccountService } from 'src/app/services/account.service';
 import { AddRecipeComponent } from '../add-recipe/add-recipe.component';
 import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
+import { LoginComponent } from '../login/login.component';
 import { RecipeComponent } from '../recipe/recipe.component';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-recipe-book',
@@ -12,6 +15,8 @@ import { RecipeComponent } from '../recipe/recipe.component';
   styleUrls: ['./recipe-book.component.css']
 })
 export class RecipeBookComponent {
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger | undefined;
+  
   constructor(private dialog: MatDialog, public account: AccountService) {}
 
   openAdd() {
@@ -24,6 +29,16 @@ export class RecipeBookComponent {
 
   openRecipe(recipe: Recipe) {
     const dialogRef = this.dialog.open(RecipeComponent, {restoreFocus: false, data: recipe});
+  }
+
+  openLogin() {
+    const dialogRef = this.dialog.open(LoginComponent, {restoreFocus: false});
+    dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
+  }
+
+  openRegister() {
+    const dialogRef = this.dialog.open(RegisterComponent, {restoreFocus: false});
+    dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
   }
 
 }
