@@ -13,12 +13,12 @@
                 <button mat-icon-button color="primary" (click)="openEdit(item)"><mat-icon>edit</mat-icon></button>
                 <mat-card-subtitle>{{item.quantity}} left</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-actions>
-                <button mat-icon-button (click)="pantry.incrementItem(item, false)"
-                    color="warn"><mat-icon>remove_circle_outline</mat-icon></button>
-                <button mat-icon-button (click)="pantry.incrementItem(item, true)"
-                    color="primary"><mat-icon>add_circle_outline</mat-icon></button>
-            </mat-card-actions>
+            <div class="centered">
+                <button mat-button (click)="pantry.incrementItem(item, false)"
+                    color="warn">Remove</button>
+                <button mat-button (click)="pantry.incrementItem(item, true)"
+                    color="primary">Add</button>
+            </div>
             <mat-card-content>
                 <p>Weight: {{item.weight}}</p>
                 <p>Calories: {{item.calories}}</p>

@@ -1,8 +1,6 @@
 /* see global styles.css */
 
-/* item buttons for increment/decrement */
-mat-card-actions {
-    display: flex;
-    justify-content: center;
-    padding: 0;
+/* allow buttons to sit closer to the header */
+.example-header-image {
+    margin: 0;
 }

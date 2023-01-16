@@ -32,5 +32,8 @@ mat-card {
 /* avatar for item and recipe cards*/
 .example-header-image {
     background-size: cover;
-    margin: 0 !important;
+}
+
+.centered {
+    text-align: center;
 }
