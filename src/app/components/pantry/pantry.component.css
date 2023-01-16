@@ -15,6 +15,19 @@ mat-card {
     margin: auto;
 }
 
+.edit-container {
+    text-align: right;
+}
+.edit-button {
+    border: none;
+}
+.edit-icon {
+}
+
+mat-card-header {
+    padding-top: 0;
+}
+
 .example-header-image {
     background-size: cover;
 }

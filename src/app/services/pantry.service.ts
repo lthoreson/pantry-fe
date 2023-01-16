@@ -62,4 +62,14 @@ export class PantryService {
     })
   }
 
+  public modItem(item: Item) {
+    this.http.put(this.url, item).pipe(take(1)).subscribe({
+      next: (response) => {this.account.prompt("edit successful")},
+      error: (error) => {
+        this.account.prompt(error.error.message)
+        this.loadPantry()
+      }
+    })
+  }
+
 }
