@@ -10,9 +10,23 @@ import { PantryService } from 'src/app/services/pantry.service';
   template: 'passed in {{ recipe }}'
 })
 export class RecipeComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public recipe: Recipe, public pantry: PantryService) { }
+  public disabledState = false
+  public submitButtonText = "Make Recipe"
+
+  constructor(@Inject(MAT_DIALOG_DATA) public recipe: Recipe, public pantry: PantryService) {
+    this.checkPantry()
+  }
 
   public sumItemCalories() {
     return this.recipe.ingredients.reduce((accumulated, current) => accumulated + (current.weight * current.item.calories),0)
+  }
+
+  public checkPantry() {
+    for (let ingredient of this.recipe.ingredients) {
+      if (ingredient.weight > ingredient.item.quantity) {
+        this.disabledState = true
+        this.submitButtonText = "Missing Items in Pantry"
+      }
+    }
   }
 }

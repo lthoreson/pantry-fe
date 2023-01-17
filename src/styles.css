@@ -1,11 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    /* background-image: url("https://images.pexels.com/photos/139312/pexels-photo-139312.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"); 
+    background-size: cover; */
+}
 h1 {
     margin: 2rem;
 }
-/* 2 containers for recipe and item cards */
+
+/* containers for recipe and item cards */
 .flex-container {
     display: flex;
     flex-wrap: wrap;

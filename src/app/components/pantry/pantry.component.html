@@ -1,5 +1,5 @@
 <div>
-    <h1>Pantry</h1>
+    <h1>Pantry Items</h1>
     <div class="flex-container">
         <mat-card *ngIf="account.getSession().id !== null" class="add-card" (click)="openAdd()">
             <div class="add-icon">
@@ -22,7 +22,7 @@
                 </button>
             </div>
             <mat-card-content>
-                <p>Weight (oz.): {{item.weight}}</p>
+                <p>Weight: {{item.weight}} oz.</p>
                 <p>Calories: {{item.calories}}</p>
             </mat-card-content>
         </mat-card>

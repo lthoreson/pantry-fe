@@ -15,5 +15,5 @@
     </ol>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button color="warn" (click)="pantry.takeItems(recipe); submit.disabled = true;" #submit>Make Recipe</button>
+    <button mat-button color="warn" (click)="pantry.takeItems(recipe);" [disabled]="disabledState">{{submitButtonText}}</button>
 </mat-dialog-actions>

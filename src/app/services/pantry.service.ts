@@ -54,7 +54,10 @@ export class PantryService {
     }
     positive? item.quantity++ : item.quantity--
     this.http.put<Item>(this.url, item).pipe(take(1)).subscribe({
-      next: (response) => {},
+      next: (response) => {
+        const credentials = this.account.getSession()
+        this.account.login(credentials.username, credentials.password)
+      },
       error: (error) => {
         positive? item.quantity-- : item.quantity++
         this.account.prompt(error.error.message)
@@ -64,7 +67,11 @@ export class PantryService {
 
   public modItem(item: Item) {
     this.http.put(this.url, item).pipe(take(1)).subscribe({
-      next: (response) => {this.account.prompt("edit successful")},
+      next: (response) => {
+        const credentials = this.account.getSession()
+        this.account.login(credentials.username, credentials.password)
+        this.account.prompt("edit successful")
+      },
       error: (error) => {
         this.account.prompt(error.error.message)
         this.loadPantry()
