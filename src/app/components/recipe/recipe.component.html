@@ -3,7 +3,11 @@
     <img src="{{recipe.image}}" alt="Photo of {{recipe.name}}">
     <h2>Ingredients</h2>
     <ul>
-        <li *ngFor="let ingredient of recipe.ingredients">{{ingredient.item.name}}: {{ingredient.weight}}</li>
+        <li *ngFor="let ingredient of recipe.ingredients">{{ingredient.item.name}}: {{ingredient.weight}} ({{ingredient.weight * ingredient.item.weight}} oz. total)</li>
+    </ul>
+    <h2>Total Calories</h2>
+    <ul>
+        <li>{{sumItemCalories()}}</li>
     </ul>
     <h2>Steps</h2>
     <ol>
@@ -11,5 +15,5 @@
     </ol>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button color="warn" (click)="pantry.takeItems(recipe)">Make Recipe</button>
+    <button mat-button color="warn" (click)="pantry.takeItems(recipe); submit.disabled = true;" #submit>Make Recipe</button>
 </mat-dialog-actions>

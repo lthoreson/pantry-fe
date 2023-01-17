@@ -11,4 +11,8 @@ import { PantryService } from 'src/app/services/pantry.service';
 })
 export class RecipeComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public recipe: Recipe, public pantry: PantryService) { }
+
+  public sumItemCalories() {
+    return this.recipe.ingredients.reduce((accumulated, current) => accumulated + (current.weight * current.item.calories),0)
+  }
 }

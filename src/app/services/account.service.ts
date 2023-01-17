@@ -94,6 +94,7 @@ export class AccountService {
   public deleteAccount(): void {
     this.http.delete(`${this.url}/${this.session.id}?username=${this.session.username}&password=${this.session.password}`).pipe(take(1)).subscribe({
       next: () => {
+        this.setSession(new Account(null, '', '', []))
         this.prompt("account deleted")
       },
       error: (error) => this.prompt(error.error.message)

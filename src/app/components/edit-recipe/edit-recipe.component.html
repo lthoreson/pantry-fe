@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <h1>Editing {{recipe.name}} recipe</h1>
     <!-- Name step -->
-    <mat-stepper orientation="vertical" [linear]="true" #stepper>
+    <mat-stepper orientation="vertical" [linear]="false" #stepper>
         <mat-step [stepControl]="nameFormGroup">
             <form [formGroup]="nameFormGroup">
                 <ng-template matStepLabel>Edit the recipe name</ng-template>
