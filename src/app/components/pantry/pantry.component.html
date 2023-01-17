@@ -1,7 +1,7 @@
 <div>
     <h1>Pantry</h1>
     <div class="flex-container">
-        <mat-card *ngIf="account.getSession().id !== null" (click)="openAdd()">
+        <mat-card *ngIf="account.getSession().id !== null" class="add-card" (click)="openAdd()">
             <div class="add-icon">
                 <mat-icon [inline]="true" color="accent">add</mat-icon>
             </div>
@@ -14,10 +14,12 @@
                 <mat-card-subtitle>{{item.quantity}} left</mat-card-subtitle>
             </mat-card-header>
             <div class="centered">
-                <button mat-button (click)="pantry.incrementItem(item, false)"
-                    color="warn">Remove</button>
-                <button mat-button (click)="pantry.incrementItem(item, true)"
-                    color="primary">Add</button>
+                <button mat-button color="primary" (click)="pantry.incrementItem(item, false)">
+                    <mat-icon>remove_circle</mat-icon>
+                </button>
+                <button mat-button color="primary" (click)="pantry.incrementItem(item, true)">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
             </div>
             <mat-card-content>
                 <p>Weight: {{item.weight}}</p>
