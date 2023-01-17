@@ -72,4 +72,18 @@ export class PantryService {
     })
   }
 
+  public deleteItem(id: number | null) {
+    this.http.delete(`${this.url}/${id}`).pipe(take(1)).subscribe({
+      next: (response) => {
+        const deletedIndex = this.pantry.findIndex((i) => i.id === id)
+        this.pantry.splice(deletedIndex, 1)
+        this.account.prompt("deleted item")
+      },
+      error: (error) => {
+        this.account.prompt("Cannot delete. Currently used in recipe.")
+        this.loadPantry()
+      }
+    })
+  }
+
 }

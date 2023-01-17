@@ -16,10 +16,7 @@ mat-card {
     margin-right: 1rem;
     margin-bottom: 1rem;
 }
-/* buttons for adding new items and recipes */
-.add-card {
-    width: 130px;
-}
+
 /* plus sign inside the "add new __" buttons */
 .add-icon {
     font-size: 50px;

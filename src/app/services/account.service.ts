@@ -100,6 +100,15 @@ export class AccountService {
     })
   }
 
+  public deleteRecipe(id: number | null): void {
+    this.http.delete(`http://localhost:8080/recipe/${id}?username=${this.session.username}&password=${this.session.password}`).pipe(take(1)).subscribe({
+      next: () => {
+        this.prompt("recipe deleted")
+      },
+      error: (error) => this.prompt(error.error.message)
+    })
+  }
+
   public prompt(message: string): void {
     this.snack.open(message, "Close")
   }
