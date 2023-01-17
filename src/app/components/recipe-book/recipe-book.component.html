@@ -1,5 +1,5 @@
 <div *ngIf="account.getSession().id === null" class="account-buttons">
-    <button mat-raised-button color="primary" (click)="openLogin()">Log In</button>
+    <button mat-raised-button (click)="openLogin()">Log In</button>
     <button mat-raised-button (click)="openRegister()">Register</button>
 </div>
 <div *ngIf="account.getSession().id !== null">
@@ -7,7 +7,7 @@
     <div class="flex-container">
         <mat-card (click)="openAdd()">
             <div class="add-icon">
-                <mat-icon [inline]="true" color="accent">add</mat-icon>
+                <mat-icon [inline]="true" color="primary">add</mat-icon>
             </div>
         </mat-card>
         <div *ngFor="let recipe of account.getSession().recipes" class="recipe-card">
@@ -17,7 +17,7 @@
                     </div>
                     <mat-card-title>{{recipe.name}}</mat-card-title>
                     <span class="button-spacer"></span>
-                    <mat-card-subtitle>{{recipe.ingredients.length}} ingredient(s)</mat-card-subtitle>
+                    <mat-card-subtitle>Missing {{recipe.missing().length}} ingredient(s)</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
                     <mat-chip-listbox aria-label="ingredients of recipe">
@@ -28,7 +28,7 @@
                       </mat-chip-listbox>
                 </mat-card-content>
             </mat-card>
-            <button mat-icon-button color="primary" class="edit-button"
+            <button mat-icon-button color="accent" class="edit-button"
                         (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
         </div>
     </div>

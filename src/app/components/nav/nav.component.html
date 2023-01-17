@@ -1,21 +1,20 @@
-<p>
-    <mat-toolbar color="primary">
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-            <mat-icon>menu</mat-icon>
+<mat-toolbar style="background: transparent;">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>PantryView</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu" color="{{account.getSession().id ? 'accent' : null}}">
+        <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openLogin()">Log In</button>
+        <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openRegister()">Register</button>
+        <button *ngIf="account.getSession().id !== null" mat-menu-item
+            (click)="openAccount()">{{account.getSession().username}}</button>
+        <button *ngIf="account.getSession().id !== null" mat-menu-item (click)="account.logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            Log Out
         </button>
-        <span>PantryView</span>
-        <span class="example-spacer"></span>
-        <button mat-icon-button [matMenuTriggerFor]="menu" color="{{account.getSession().id ? 'accent' : null}}">
-            <mat-icon>person</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openLogin()">Log In</button>
-            <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openRegister()">Register</button>
-            <button *ngIf="account.getSession().id !== null" mat-menu-item (click)="openAccount()">{{account.getSession().username}}</button>
-            <button *ngIf="account.getSession().id !== null" mat-menu-item (click)="account.logout()">
-                <mat-icon>exit_to_app</mat-icon>
-                Log Out
-            </button>
-        </mat-menu>
-    </mat-toolbar>
-</p>
+    </mat-menu>
+</mat-toolbar>

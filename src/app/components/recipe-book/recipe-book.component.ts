@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { Ingredient } from 'src/app/data/Ingredient';
 import { Recipe } from 'src/app/data/Recipe';
 import { AccountService } from 'src/app/services/account.service';
 import { AddRecipeComponent } from '../add-recipe/add-recipe.component';
@@ -17,7 +18,8 @@ import { RegisterComponent } from '../register/register.component';
 export class RecipeBookComponent {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger | undefined;
   
-  constructor(private dialog: MatDialog, public account: AccountService) {}
+  constructor(private dialog: MatDialog, public account: AccountService) {
+  }
 
   openAdd() {
     const dialogRef = this.dialog.open(AddRecipeComponent, {restoreFocus: false});

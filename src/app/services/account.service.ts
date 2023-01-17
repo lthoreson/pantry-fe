@@ -10,7 +10,7 @@ import { Recipe } from '../data/Recipe';
   providedIn: 'root'
 })
 export class AccountService {
-  private session: Account = new Account(null, '', '',[])
+  private session: Account = new Account(null, '', '', [])
   private url: string = 'http://localhost:8080/account'
 
   constructor(private http: HttpClient, private snack: MatSnackBar) {
@@ -37,9 +37,9 @@ export class AccountService {
   public login(username: string, password: string): void {
     this.http.get<Account>(`${this.url}?username=${username}&password=${password}`).pipe(take(1)).subscribe({
       next: (response) => {
-        this.setSession(response)
+        this.setSession(new Account(response.id, response.username, response.password, response.recipes))
       },
-      error: (error) => {this.prompt(error.error.message); console.log(error)}
+      error: (error) => { this.prompt(error.error.message); console.log(error) }
     })
   }
 
@@ -48,7 +48,7 @@ export class AccountService {
   }
 
   public add(username: string, password: string): void {
-    const newAccount = new Account(null, username, password,[])
+    const newAccount = new Account(null, username, password, [])
     this.http.post<Account>(this.url, newAccount).pipe(take(1)).subscribe({
       next: (response) => {
         this.setSession(response)
@@ -104,6 +104,7 @@ export class AccountService {
   public deleteRecipe(id: number | null): void {
     this.http.delete(`http://localhost:8080/recipe/${id}?username=${this.session.username}&password=${this.session.password}`).pipe(take(1)).subscribe({
       next: () => {
+        this.login(this.session.username, this.session.password)
         this.prompt("recipe deleted")
       },
       error: (error) => this.prompt(error.error.message)

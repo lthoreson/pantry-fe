@@ -3,7 +3,10 @@
     <img src="{{recipe.image}}" alt="Photo of {{recipe.name}}">
     <h2>Ingredients</h2>
     <ul>
-        <li *ngFor="let ingredient of recipe.ingredients">{{ingredient.item.name}}: {{ingredient.weight}} ({{ingredient.weight * ingredient.item.weight}} oz. total)</li>
+        <!-- multiplied by selected number of batches -->
+        <li *ngFor="let ingredient of multipleRecipe.ingredients" [style.color]="ingredientColor(ingredient)">
+            {{ingredient.item.name}}: {{ingredient.weight}}
+            ({{ingredient.weight * ingredient.item.weight}} oz. total)</li>
     </ul>
     <h2>Total Calories</h2>
     <ul>
@@ -15,5 +18,12 @@
     </ol>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button color="warn" (click)="pantry.takeItems(recipe);" [disabled]="disabledState">{{submitButtonText}}</button>
+    <mat-form-field>
+        <mat-label>Batches</mat-label>
+        <!-- input to multiply recipe -->
+        <input matInput value="1" min="1" type="number" (change)="multiplyRecipe(multiple.value); checkPantry()" #multiple>
+    </mat-form-field>
+    <!-- disables after clicking, or if ingredients are not available in the pantry -->
+    <button mat-raised-button color="primary" (click)="pantry.takeItems(multipleRecipe); disabledState = true;"
+        [disabled]="disabledState">{{submitButtonText}}</button>
 </mat-dialog-actions>

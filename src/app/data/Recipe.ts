@@ -16,4 +16,14 @@ export class Recipe {
         this.ingredients = ingredients
         this.steps = steps
     }
+
+    public missing(): Ingredient[] {
+        const missing: Ingredient[] = []
+        for (let ingredient of this.ingredients) {
+            if (ingredient.weight > ingredient.item.quantity) {
+              missing.push(ingredient)
+            }
+          }
+        return missing
+    }
 }
