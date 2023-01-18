@@ -61,6 +61,7 @@ export class AccountService {
     const newRecipe = new Recipe(null, name, this.session, image, ingredients, steps)
     this.http.post<Recipe>('http://localhost:8080/recipe', newRecipe).pipe(take(1)).subscribe({
       next: (response) => {
+        response = this.instantiateRecipe(response)
         this.session.recipes.push(response)
         this.prompt("recipe added :)")
       },
@@ -73,7 +74,7 @@ export class AccountService {
     this.http.put<Recipe>('http://localhost:8080/recipe', updatedRecipe).pipe(take(1)).subscribe({
       next: (response) => {
         const recipeIndex = this.session.recipes.findIndex((r) => r.id === response.id)
-        this.session.recipes[recipeIndex] = response
+        this.session.recipes[recipeIndex] = this.instantiateRecipe(response)
         this.prompt("recipe edit successful")
       },
       error: (error) => this.prompt(error.error.message)
@@ -104,7 +105,9 @@ export class AccountService {
   public deleteRecipe(id: number | null): void {
     this.http.delete(`http://localhost:8080/recipe/${id}?username=${this.session.username}&password=${this.session.password}`).pipe(take(1)).subscribe({
       next: () => {
-        this.login(this.session.username, this.session.password)
+        // delete recipe from memory if request successful
+        const recipeIndex = this.session.recipes.findIndex((r) => r.id === id)
+        this.session.recipes.splice(recipeIndex, 1)
         this.prompt("recipe deleted")
       },
       error: (error) => this.prompt(error.error.message)
@@ -113,5 +116,9 @@ export class AccountService {
 
   public prompt(message: string): void {
     this.snack.open(message, "Close")
+  }
+
+  public instantiateRecipe(response: Recipe): Recipe {
+    return new Recipe(response.id, response.name, response.account, response.image, response.ingredients, response.steps)
   }
 }
