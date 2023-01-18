@@ -29,7 +29,6 @@ export class ListComponent {
   }
 
   public groceryRun(): void {
-    console.log(this.checkboxes.getRawValue())
     for (let item of this.list) {
       if (this.checkboxes.getRawValue()[item.name as keyof Object]) {
         item.quantity += item.demand
