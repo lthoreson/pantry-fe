@@ -1,6 +1,9 @@
-<mat-dialog-content>
+<mat-dialog-content [formGroup]="checkboxes">
     <h1>Grocery List</h1>
-    <ol>
-        <li *ngFor="let item of list">{{item.name}}: {{item.demand}} pieces ({{item.weight}} oz. each)</li>
-    </ol>
+    <mat-checkbox *ngFor="let item of list" formControlName="{{item.name}}">
+        {{item.name}}: {{item.demand}} pieces ({{item.weight}} oz. each)
+    </mat-checkbox>
 </mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="groceryRun()">Add Items to Pantry</button>
+</mat-dialog-actions>

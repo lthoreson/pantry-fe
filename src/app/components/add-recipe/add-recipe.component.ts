@@ -31,12 +31,8 @@ export class AddRecipeComponent {
     this.ingredients = this.pantry.getPantry().map((i) => new Ingredient(i, 0))
     // add a a form control for each ingredient by name to store the input values
     for (let i of this.ingredients) {
-      this.addIngredientControl(i.item.name)
+      this.ingredientsFormGroup.addControl(i.item.name, new FormControl(''))
     }
-  }
-  // add ingredient form control
-  public addIngredientControl(name: string): void {
-    this.ingredientsFormGroup.addControl(name, new FormControl(''))
   }
   // getter function for FormArray of form control aliases
   public get steps(): FormArray {
