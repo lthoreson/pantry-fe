@@ -1,6 +1,7 @@
 <mat-toolbar style="background: transparent;">
     <span>PantryView</span>
     <span class="example-spacer"></span>
+    <button mat-button aria-label="Grocery List" (click)="openList()">Grocery List</button>
     <button mat-icon-button [matMenuTriggerFor]="menu" color="{{account.getSession().id ? 'accent' : null}}">
         <mat-icon>person</mat-icon>
     </button>

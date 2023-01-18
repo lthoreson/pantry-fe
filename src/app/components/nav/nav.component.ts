@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { AccountService } from 'src/app/services/account.service';
 import { AccountComponent } from '../account/account.component';
+import { ListComponent } from '../list/list.component';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 
@@ -28,6 +29,11 @@ export class NavComponent {
 
   openAccount() {
     const dialogRef = this.dialog.open(AccountComponent, {restoreFocus: false});
+    dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
+  }
+
+  openList() {
+    const dialogRef = this.dialog.open(ListComponent, {restoreFocus: false});
     dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
   }
 

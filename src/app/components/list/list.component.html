@@ -1,0 +1,6 @@
+<mat-dialog-content>
+    <h1>Grocery List</h1>
+    <ol>
+        <li *ngFor="let item of list">{{item.name}}: {{item.demand}} pieces ({{item.weight}} oz. each)</li>
+    </ol>
+</mat-dialog-content>

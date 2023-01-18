@@ -46,7 +46,7 @@ export class RecipeComponent {
   }
 
   public enoughOfItem(ingredient: Ingredient): boolean {
-    return ingredient.weight < ingredient.item.quantity
+    return ingredient.weight <= ingredient.item.quantity
   }
 
   public requestItems(): void {
