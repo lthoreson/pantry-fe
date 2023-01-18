@@ -4,7 +4,7 @@
     <h2>Ingredients</h2>
     <ul>
         <!-- multiplied by selected number of batches -->
-        <li *ngFor="let ingredient of multipleRecipe.ingredients" [style.color]="ingredientColor(ingredient)">
+        <li *ngFor="let ingredient of multipleRecipe.ingredients" [style.color]="enoughOfItem(ingredient) ? 'black' : 'red'">
             {{ingredient.item.name}}: {{ingredient.weight}}
             ({{ingredient.weight * ingredient.item.weight}} oz. total)</li>
     </ul>
@@ -21,9 +21,8 @@
     <mat-form-field>
         <mat-label>Batches</mat-label>
         <!-- input to multiply recipe -->
-        <input matInput value="1" min="1" type="number" (change)="multiplyRecipe(multiple.value); checkPantry()" #multiple>
+        <input matInput value="1" min="1" type="number" (change)="multiplyRecipe(multiple.value); checkPantry();" #multiple>
     </mat-form-field>
-    <!-- disables after clicking, or if ingredients are not available in the pantry -->
-    <button mat-raised-button color="primary" (click)="pantry.takeItems(multipleRecipe); disabledState = true;"
-        [disabled]="disabledState">{{submitButtonText}}</button>
+    <button *ngIf="!enoughIngredients" mat-raised-button color="accent" (click)="requestItems(); requestButton.disabled= true;" #requestButton>Request Items</button>
+    <button *ngIf="enoughIngredients" mat-raised-button color="primary" (click)="pantry.takeItems(multipleRecipe); makeButton.disabled= true;" #makeButton>Make Recipe</button>
 </mat-dialog-actions>

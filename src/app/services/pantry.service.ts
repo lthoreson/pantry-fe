@@ -28,7 +28,7 @@ export class PantryService {
   }
 
   public add(name: string, quantity: string, image: string, weight: string, calories: string) {
-    const newItem = new Item(null, name, Number(quantity), image, Number(weight), Number(calories))
+    const newItem = new Item(null, name, Number(quantity), image, Number(weight), Number(calories), 0)
     this.http.post<Item>(this.url, newItem).pipe(take(1)).subscribe({
       next: (response) => {
         this.account.prompt('Item sucessfully added :)')
@@ -52,7 +52,10 @@ export class PantryService {
     if (item.quantity <= 0 && positive === false) {
       return
     }
-    positive? item.quantity++ : item.quantity--
+    positive ? item.quantity++ : item.quantity--
+    if (positive && item.demand >= 1) {
+      item.demand--
+    }
     this.http.put<Item>(this.url, item).pipe(take(1)).subscribe({
       next: (response) => {
         const credentials = this.account.getSession()

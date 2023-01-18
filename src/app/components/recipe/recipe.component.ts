@@ -11,9 +11,9 @@ import { PantryService } from 'src/app/services/pantry.service';
   template: 'passed in {{ recipe }}'
 })
 export class RecipeComponent {
-  public disabledState = false
+  public enoughIngredients = true
   public submitButtonText = "Make Recipe"
-  // deep copy recipe
+  // This deep copy will be multiplied from the original
   public multipleRecipe: Recipe = JSON.parse(JSON.stringify(this.recipe))
 
   constructor(@Inject(MAT_DIALOG_DATA) public recipe: Recipe, public pantry: PantryService) {
@@ -25,15 +25,14 @@ export class RecipeComponent {
   }
 
   public checkPantry(): void {
+    let enoughForAll = true
     for (let ingredient of this.multipleRecipe.ingredients) {
-      if (ingredient.weight > ingredient.item.quantity) {
-        this.disabledState = true
-        this.submitButtonText = "Go Shopping"
-      } else {
-        this.disabledState = false
-        this.submitButtonText = "Make Recipe"
-      }
+      if (!this.enoughOfItem(ingredient)) {
+        enoughForAll = false
+        this.submitButtonText = "Request Item"
+      } 
     }
+    this.enoughIngredients = enoughForAll
   }
 
   // change weights by multiplying original by param
@@ -46,7 +45,20 @@ export class RecipeComponent {
     }
   }
 
-  public ingredientColor(ingredient: Ingredient): string {
-    return ingredient.weight > ingredient.item.quantity ? 'red' : 'black'
+  public enoughOfItem(ingredient: Ingredient): boolean {
+    return ingredient.weight < ingredient.item.quantity
   }
+
+  public requestItems(): void {
+    for (let ingredient of this.multipleRecipe.ingredients) {
+      if (!this.enoughOfItem(ingredient)) {
+        const target = this.pantry.getPantry().find((i) => i.id === ingredient.item.id)
+        if (target) {
+          target.demand += ingredient.weight - target.quantity
+          this.pantry.modItem(target)
+        }
+      } 
+    }
+  }
+
 }
