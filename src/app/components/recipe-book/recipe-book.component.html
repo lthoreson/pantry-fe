@@ -1,8 +1,10 @@
-<div *ngIf="account.getSession().id === null" class="account-buttons">
+<section *ngIf="account.getSession().id === null" class="account-buttons">
+    <p>Welcome to Coopereat, a community pantry app.</p>
+    <p>Log in or create an account to start adding items and recipes.</p>
     <button mat-raised-button (click)="openLogin()">Log In</button>
     <button mat-raised-button (click)="openRegister()">Register</button>
-</div>
-<div *ngIf="account.getSession().id !== null">
+</section>
+<section *ngIf="account.getSession().id !== null">
     <h1>My Recipes</h1>
     <div class="flex-container">
         <mat-card (click)="openAdd()">
@@ -32,4 +34,4 @@
                         (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
         </div>
     </div>
-</div>
+</section>

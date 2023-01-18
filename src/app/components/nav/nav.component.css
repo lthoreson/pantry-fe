@@ -1,4 +1,12 @@
 .example-spacer {
-    flex: 1 1 auto;
-  }
-  
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  border-bottom: 1px solid rgb(187, 215, 158);
+}
+span {
+  font-family: Comfortaa, "Helvetica Neue", sans-serif;
+  font-size: 2rem;
+  color: coral;
+}
