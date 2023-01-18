@@ -5,5 +5,5 @@
     </mat-checkbox>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="groceryRun()">Add Items to Pantry</button>
+    <button mat-raised-button color="primary" (click)="groceryRun()" [disabled]="list.length === 0 ? true : false">Add Items to Pantry</button>
 </mat-dialog-actions>

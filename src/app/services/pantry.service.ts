@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { Item } from '../data/Item';
 import { Recipe } from '../data/Recipe';
 import { AccountService } from './account.service';
@@ -42,6 +42,8 @@ export class PantryService {
     this.http.put<Item[]>(this.url+'/take', recipe).pipe(take(1)).subscribe({
       next: (response) => {
         this.pantry = response
+        const credentials = this.account.getSession()
+        this.account.login(credentials.username, credentials.password)
         this.account.prompt(`Ingredients for ${recipe.name} were removed from the pantry`)
       },
       error: (error) => {this.account.prompt(error.error.message)}
