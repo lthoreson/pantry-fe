@@ -1,4 +1,17 @@
 p {
-    font-size:xx-large;
+    font-size: x-large;
     color: coral;
+}
+
+.wave-container {
+    position: relative;
+}
+
+.wave {
+    z-index: -1;
+    display: block;
+}
+
+.white-background {
+    background-color: white;
 }

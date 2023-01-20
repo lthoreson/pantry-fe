@@ -31,7 +31,9 @@ import {MatCardModule} from '@angular/material/card';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { ShareComponent } from './components/share/share.component';
 
 @NgModule({
   declarations: [
@@ -48,12 +50,15 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     EditRecipeComponent,
     AccountComponent,
     ListComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ShareComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -67,8 +72,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     MatStepperModule,
     MatChipsModule,
     MatCheckboxModule,
-    FormsModule,
-    ReactiveFormsModule
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

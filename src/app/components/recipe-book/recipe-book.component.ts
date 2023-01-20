@@ -9,6 +9,7 @@ import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { LoginComponent } from '../login/login.component';
 import { RecipeComponent } from '../recipe/recipe.component';
 import { RegisterComponent } from '../register/register.component';
+import { ShareComponent } from '../share/share.component';
 
 @Component({
   selector: 'app-recipe-book',
@@ -32,6 +33,10 @@ export class RecipeBookComponent {
 
   openRecipe(recipe: Recipe) {
     const dialogRef = this.dialog.open(RecipeComponent, {restoreFocus: false, data: recipe});
+  }
+
+  openShare(recipe: Recipe) {
+    const dialogRef = this.dialog.open(ShareComponent, {restoreFocus: false, data: recipe});
   }
 
   public filter(recipes: Recipe[]) {

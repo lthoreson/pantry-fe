@@ -1,16 +1,22 @@
-<section *ngIf="account.getSession().id === null" class="account-buttons">
-    <p>Welcome to Coopereat, a community pantry app.</p>
-    <p>Log in or <a (click)="openRegister()" onclick="return false" href="">create an account</a> to start adding items and recipes.</p>
-    <form action="">
-        <mat-form-field appearance="fill">
-            <mat-label>Username</mat-label>
-            <input matInput #username>
-        </mat-form-field><br>
-        <mat-form-field appearance="fill">
-            <mat-label>Password</mat-label>
-            <input matInput #password>
-        </mat-form-field>
-    </form>
-    <button mat-raised-button mat-dialog-close color="primary"
-        (click)="account.login(username.value, password.value)">Login</button>
-</section>
+<div class="green-gradient">
+    <section *ngIf="account.getSession().id === null">
+        <p>Welcome to Coopereat, a community pantry app.</p>
+        <p>Log in or <a (click)="openRegister()" onclick="return false" href="">create an account</a> to start adding
+            items
+            and recipes.</p>
+    </section>
+    <section>
+        <form action="">
+            <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput #username>
+            </mat-form-field><br>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput #password>
+            </mat-form-field>
+        </form>
+        <button mat-raised-button mat-dialog-close color="primary"
+            (click)="account.login(username.value, password.value)">Login</button>
+    </section>
+</div>

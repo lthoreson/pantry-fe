@@ -8,18 +8,22 @@ body {
 body {
     margin: 0;
     font-family: Rubik, "Helvetica Neue", sans-serif;
-    background-color: rgb(228, 255, 226);
 }
 
 section {
-    margin: 2rem;
+    margin: 0 2rem;
+    padding-top: .01rem;
+}
+
+.green-gradient {
+    background: linear-gradient(to right,rgb(228, 255, 226), rgb(255, 231, 161)) !important;
+    margin: 0;
 }
 
 /* containers for recipe and item cards */
 .flex-container {
     display: flex;
     flex-wrap: wrap;
-    margin: 2rem;
 }
 
 mat-card {

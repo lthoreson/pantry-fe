@@ -10,11 +10,6 @@ mat-card:hover {
     position: relative;
 }
 
-.button-spacer {
-    width: 30px;
-    height: 30px;
-}
-
 .edit-button {
     position: absolute;
     right: 23px;
@@ -22,5 +17,5 @@ mat-card:hover {
 }
 
 .inline {
-    display: inline;
+    display: inline-block;
 }
