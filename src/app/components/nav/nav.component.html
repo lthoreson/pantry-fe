@@ -1,15 +1,23 @@
 <!-- navbar -->
 <mat-toolbar style="background: transparent;">
+    <!-- menu to switch between views -->
+    <button mat-icon-button [matMenuTriggerFor]="menu" [disabled]="this.account.getView() === 'welcome'"><mat-icon>menu</mat-icon></button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="account.setView('all')">Show All</button>
+        <button mat-menu-item (click)="account.setView('recipes')">Show Recipes</button>
+        <button mat-menu-item (click)="account.setView('pantry')">Show Pantry</button>
+    </mat-menu>
+
     <span>coopereat</span>
     <span class="example-spacer"></span>
     <!-- grocery list dialog button -->
     <button mat-button aria-label="Grocery List" (click)="openList()">Grocery List</button>
     <!-- trigger for dropdown -->
-    <button mat-icon-button [matMenuTriggerFor]="menu" color="{{account.getSession().id ? 'accent' : null}}">
+    <button mat-icon-button [matMenuTriggerFor]="accountMenu" color="{{account.getSession().id ? 'accent' : null}}">
         <mat-icon>person</mat-icon>
     </button>
     <!-- dropdown -->
-    <mat-menu #menu="matMenu">
+    <mat-menu #accountMenu="matMenu">
         <!-- login -->
         <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openLogin()">Log In</button>
         <!-- register -->

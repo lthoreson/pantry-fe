@@ -1,3 +1,4 @@
 <app-nav></app-nav>
-<app-recipe-book></app-recipe-book>
-<app-pantry></app-pantry>
+<app-welcome *ngIf="['welcome'].includes(account.getView())"></app-welcome>
+<app-recipe-book *ngIf="['recipes','all'].includes(account.getView())"></app-recipe-book>
+<app-pantry *ngIf="['pantry','all'].includes(account.getView())"></app-pantry>

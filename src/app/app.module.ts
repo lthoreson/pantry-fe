@@ -31,6 +31,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     EditItemComponent,
     EditRecipeComponent,
     AccountComponent,
-    ListComponent
+    ListComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

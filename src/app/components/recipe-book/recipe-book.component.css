@@ -1,10 +1,5 @@
 /* see global styles.css */
 
-/* log in and register buttons */
-.account-buttons button {
-    margin: 1rem;
-}
-
 /* indicates recipes are clickable */
 mat-card:hover {
     background-color: whitesmoke;

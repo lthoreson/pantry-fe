@@ -12,6 +12,7 @@ import { Recipe } from '../data/Recipe';
 export class AccountService {
   private session: Account = new Account(null, '', '', [])
   private url: string = 'http://localhost:8080/account'
+  private view: string = 'welcome'
 
   constructor(private http: HttpClient, private snack: MatSnackBar) {
     const lastLogin = localStorage.getItem('lastLogin')
@@ -19,6 +20,14 @@ export class AccountService {
       const account = JSON.parse(lastLogin)
       this.login(account.username, account.password)
     }
+  }
+
+  public setView(view: string): void {
+    this.view = view
+  }
+
+  public getView(): string {
+    return this.view
   }
 
   public setSession(user: Account): void {
@@ -38,6 +47,7 @@ export class AccountService {
     this.http.get<Account>(`${this.url}?username=${username}&password=${password}`).pipe(take(1)).subscribe({
       next: (response) => {
         this.setSession(new Account(response.id, response.username, response.password, response.recipes))
+        this.setView('all')
       },
       error: (error) => { this.prompt(error.error.message); console.log(error) }
     })
@@ -45,6 +55,7 @@ export class AccountService {
 
   public logout() {
     this.setSession(new Account(null, '', '', []))
+    this.setView('welcome')
   }
 
   public add(username: string, password: string): void {

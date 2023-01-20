@@ -33,14 +33,4 @@ export class RecipeBookComponent {
     const dialogRef = this.dialog.open(RecipeComponent, {restoreFocus: false, data: recipe});
   }
 
-  openLogin() {
-    const dialogRef = this.dialog.open(LoginComponent, {restoreFocus: false});
-    dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
-  }
-
-  openRegister() {
-    const dialogRef = this.dialog.open(RegisterComponent, {restoreFocus: false});
-    dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
-  }
-
 }
