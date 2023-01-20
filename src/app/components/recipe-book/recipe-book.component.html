@@ -1,12 +1,13 @@
 <section *ngIf="account.getSession().id !== null">
-    <h1>My Recipes</h1>
+    <h1 class="inline">{{filtered ? 'Available Recipes' : 'All My Recipes'}}</h1>
+    <button mat-icon-button (click)="filtered = !filtered" ><mat-icon>filter_list</mat-icon></button>
     <div class="flex-container">
         <mat-card (click)="openAdd()">
             <div class="add-icon">
                 <mat-icon [inline]="true" color="primary">add</mat-icon>
             </div>
         </mat-card>
-        <div *ngFor="let recipe of account.getSession().recipes" class="recipe-card">
+        <div *ngFor="let recipe of filter(account.getSession().recipes)" class="recipe-card">
             <mat-card (click)="openRecipe(recipe)">
                 <mat-card-header>
                     <div mat-card-avatar class="example-header-image" style="background-image: url({{recipe.image}});">

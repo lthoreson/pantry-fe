@@ -1,10 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { 
-    margin: 0; 
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
     font-family: Rubik, "Helvetica Neue", sans-serif;
-    background-color:rgb(228, 255, 226);
+    background-color: rgb(228, 255, 226);
 }
 
 section {
@@ -28,11 +32,13 @@ mat-card {
     font-size: 50px;
     margin: auto;
 }
+
 /* indicates card is clickable */
 .add-card:hover {
     background-color: whitesmoke;
     cursor: pointer;
 }
+
 /* avatar for item and recipe cards*/
 .example-header-image {
     background-size: cover;

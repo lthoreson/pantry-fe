@@ -17,6 +17,7 @@ import { RegisterComponent } from '../register/register.component';
 })
 export class RecipeBookComponent {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger | undefined;
+  public filtered = false
   
   constructor(private dialog: MatDialog, public account: AccountService) {
   }
@@ -31,6 +32,20 @@ export class RecipeBookComponent {
 
   openRecipe(recipe: Recipe) {
     const dialogRef = this.dialog.open(RecipeComponent, {restoreFocus: false, data: recipe});
+  }
+
+  public filter(recipes: Recipe[]) {
+    if (this.filtered) {
+      return recipes.filter((recipe) => {
+        for (let i of recipe.ingredients) {
+          if (i.weight > i.item.quantity) {
+            return false
+          }
+        }
+        return true
+      })
+    }
+    return recipes
   }
 
 }

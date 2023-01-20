@@ -1,4 +1,5 @@
 <app-nav></app-nav>
+<!-- display views matching the current view -->
 <app-welcome *ngIf="['welcome'].includes(account.getView())"></app-welcome>
 <app-recipe-book *ngIf="['recipes','all'].includes(account.getView())"></app-recipe-book>
 <app-pantry *ngIf="['pantry','all'].includes(account.getView())"></app-pantry>

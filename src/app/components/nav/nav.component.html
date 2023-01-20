@@ -6,12 +6,13 @@
         <button mat-menu-item (click)="account.setView('all')">Show All</button>
         <button mat-menu-item (click)="account.setView('recipes')">Show Recipes</button>
         <button mat-menu-item (click)="account.setView('pantry')">Show Pantry</button>
+        <button mat-menu-item *ngIf="account.getSession().id !== null" aria-label="Grocery List" (click)="openList()">Show Grocery List</button>
     </mat-menu>
 
     <span>coopereat</span>
     <span class="example-spacer"></span>
     <!-- grocery list dialog button -->
-    <button mat-button aria-label="Grocery List" (click)="openList()">Grocery List</button>
+    <button mat-button *ngIf="account.getSession().id !== null" aria-label="Grocery List" (click)="openList()">Grocery List</button>
     <!-- trigger for dropdown -->
     <button mat-icon-button [matMenuTriggerFor]="accountMenu" color="{{account.getSession().id ? 'accent' : null}}">
         <mat-icon>person</mat-icon>
