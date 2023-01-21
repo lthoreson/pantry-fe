@@ -16,7 +16,7 @@ section {
 }
 
 .green-gradient {
-    background: linear-gradient(to right,rgb(228, 255, 226), rgb(255, 231, 161)) !important;
+    background: linear-gradient(to right, rgb(228, 255, 226), rgb(255, 231, 161)) !important;
     margin: 0;
 }
 
@@ -26,15 +26,31 @@ section {
     flex-wrap: wrap;
 }
 
-mat-card {
+.mat-card-container {
+    position: relative;
+    display: flex;
     margin-right: 1rem;
     margin-bottom: 1rem;
+}
+
+.click-card:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.card-buttons {
+    display: flex;
+    flex-direction: column;
 }
 
 /* plus sign inside the "add new __" buttons */
 .add-icon {
     font-size: 50px;
     margin: auto;
+}
+
+.add-icon mat-icon {
+    display: block;
 }
 
 /* indicates card is clickable */
@@ -48,6 +64,6 @@ mat-card {
     background-size: cover;
 }
 
-.centered {
-    text-align: center;
+.inline {
+    display: inline-block;
 }
