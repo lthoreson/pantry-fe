@@ -12,7 +12,7 @@
                 </mat-card>
             </div>
             <div *ngFor="let recipe of filter(account.getSession().recipes)" class="mat-card-container">
-                <mat-card (click)="openRecipe(recipe)">
+                <mat-card (click)="openRecipe(recipe)" class="click-card">
                     <mat-card-header>
                         <div mat-card-avatar class="example-header-image"
                             style="background-image: url({{recipe.image}});">

@@ -10,7 +10,7 @@
                 </mat-card>
             </div>
             <div class="mat-card-container" *ngFor="let item of pantry.getPantry()">
-                <mat-card class="example-card">
+                <mat-card class="example-card" [style]="item.quantity === 0 ? 'opacity: .6;' : null">
                     <mat-card-header>
                         <div mat-card-avatar class="example-header-image"
                             style="background-image: url({{item.image}});">
