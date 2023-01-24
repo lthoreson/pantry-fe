@@ -6,28 +6,28 @@
         <button mat-menu-item (click)="account.setView('all')">Show All</button>
         <button mat-menu-item (click)="account.setView('recipes')">Show Recipes</button>
         <button mat-menu-item (click)="account.setView('pantry')">Show Pantry</button>
-        <button mat-menu-item *ngIf="account.getSession().id !== null" aria-label="Grocery List" (click)="openList()">Show Grocery List</button>
+        <button mat-menu-item *ngIf="account.getAccountInfo().id !== null" aria-label="Grocery List" (click)="openList()">Show Grocery List</button>
     </mat-menu>
 
     <span>coopereat</span>
     <span class="example-spacer"></span>
     <!-- grocery list dialog button -->
-    <button mat-button *ngIf="account.getSession().id !== null" aria-label="Grocery List" (click)="openList()">Grocery List</button>
+    <button mat-button *ngIf="account.getAccountInfo().id !== null" aria-label="Grocery List" (click)="openList()">Grocery List</button>
     <!-- trigger for dropdown -->
-    <button mat-icon-button [matMenuTriggerFor]="accountMenu" color="{{account.getSession().id ? 'accent' : null}}">
+    <button mat-icon-button [matMenuTriggerFor]="accountMenu" color="{{account.getAccountInfo().id ? 'accent' : null}}">
         <mat-icon>person</mat-icon>
     </button>
     <!-- dropdown -->
     <mat-menu #accountMenu="matMenu">
         <!-- login -->
-        <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openLogin()">Log In</button>
+        <button *ngIf="account.getAccountInfo().id === null" mat-menu-item (click)="openLogin()">Log In</button>
         <!-- register -->
-        <button *ngIf="account.getSession().id === null" mat-menu-item (click)="openRegister()">Register</button>
+        <button *ngIf="account.getAccountInfo().id === null" mat-menu-item (click)="openRegister()">Register</button>
         <!-- edit/delete account -->
-        <button *ngIf="account.getSession().id !== null" mat-menu-item
-            (click)="openAccount()">{{account.getSession().username}}</button>
+        <button *ngIf="account.getAccountInfo().id !== null" mat-menu-item
+            (click)="openAccount()">{{account.getAccountInfo().username}}</button>
         <!-- logout -->
-        <button *ngIf="account.getSession().id !== null" mat-menu-item (click)="account.logout()">
+        <button *ngIf="account.getAccountInfo().id !== null" mat-menu-item (click)="account.logout()">
             <mat-icon>exit_to_app</mat-icon>
             Log Out
         </button>

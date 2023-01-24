@@ -1,5 +1,5 @@
 <div class="green-gradient">
-    <section *ngIf="account.getSession().id === null">
+    <section *ngIf="account.getAccountInfo().id === null">
         <p>Welcome to Coopereat, a community pantry app.</p>
         <p>Log in or <a (click)="openRegister()" onclick="return false" href="">create an account</a> to start adding
             items

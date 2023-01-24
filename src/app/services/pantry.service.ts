@@ -42,7 +42,7 @@ export class PantryService {
     this.http.put<Item[]>(this.url+'/take', recipe).pipe(take(1)).subscribe({
       next: (response) => {
         this.pantry = response
-        this.account.getAccount(this.account.getAuthToken())
+        this.account.getAccount(this.account.getLocalToken())
         this.account.prompt(`Ingredients for ${recipe.name} were removed from the pantry`)
       },
       error: (error) => {this.account.prompt(error.error.message)}
@@ -59,7 +59,7 @@ export class PantryService {
     }
     this.http.put<Item>(this.url, item).pipe(take(1)).subscribe({
       next: (response) => {
-        this.account.getAccount(this.account.getAuthToken())
+        this.account.getAccount(this.account.getLocalToken())
       },
       error: (error) => {
         positive? item.quantity-- : item.quantity++
@@ -71,7 +71,7 @@ export class PantryService {
   public modItem(item: Item) {
     this.http.put(this.url, item).pipe(take(1)).subscribe({
       next: (response) => {
-        this.account.getAccount(this.account.getAuthToken())
+        this.account.getAccount(this.account.getLocalToken())
         this.account.prompt("edit successful")
       },
       error: (error) => {

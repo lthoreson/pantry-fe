@@ -3,7 +3,7 @@
         <h1>Pantry Items</h1>
         <div class="flex-container">
             <div class="mat-card-container">
-                <mat-card *ngIf="account.getSession().id !== null" (click)="openAdd()" class="click-card">
+                <mat-card *ngIf="account.getAccountInfo().id !== null" (click)="openAdd()" class="click-card">
                     <div class="add-icon">
                         <mat-icon [inline]="true" color="primary">add</mat-icon>
                     </div>

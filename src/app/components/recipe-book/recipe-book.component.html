@@ -1,5 +1,5 @@
 <div class="green-gradient">
-    <section *ngIf="account.getSession().id !== null">
+    <section *ngIf="account.getAccountInfo().id !== null">
         <h1 class="inline">{{filtered ? 'Available Recipes' : 'All My Recipes'}}</h1>
         <button mat-icon-button (click)="filtered = !filtered" color="{{filtered ? 'accent' : 'primary'}}" matTooltip="filter recipes by ingredient availability"
             matTooltipPosition="right"><mat-icon>filter_list</mat-icon></button>
@@ -11,7 +11,7 @@
                     </div>
                 </mat-card>
             </div>
-            <div *ngFor="let recipe of filter(account.getSession().recipes)" class="mat-card-container">
+            <div *ngFor="let recipe of filter(account.getAccountInfo().recipes)" class="mat-card-container">
                 <mat-card (click)="openRecipe(recipe)" class="click-card">
                     <mat-card-header>
                         <div mat-card-avatar class="example-header-image"

@@ -2,11 +2,11 @@
     <h1>Edit Account Details</h1>
     <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
-        <input matInput [value]="account.getSession().username" #username>
+        <input matInput [value]="account.getAccountInfo().username" #username>
     </mat-form-field>
     <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" [value]="account.getSession().password" #password>
+        <mat-label>New Password</mat-label>
+        <input matInput type="password" #password>
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>

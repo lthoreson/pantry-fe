@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { Account } from '../data/Account';
+import { Credentials } from '../data/Credentials';
 import { Ingredient } from '../data/Ingredient';
 import { Recipe } from '../data/Recipe';
 
@@ -10,31 +11,28 @@ import { Recipe } from '../data/Recipe';
   providedIn: 'root'
 })
 export class AccountService {
-  private session: Account = new Account(null, '', '', [])
-  private url: string = 'http://localhost:8080/account'
+  private accountInfo: Account = new Account(null, '', [])
+  private url: string = 'http://localhost:8081/account'
   private view: string = 'welcome'
 
   constructor(private http: HttpClient, private snack: MatSnackBar) {
-    const lastLogin = this.getAuthToken()
+    const lastLogin = this.getLocalToken()
     if (lastLogin) {
       this.setSession(lastLogin)
       this.setView('all')
     }
   }
 
-  public getAuthToken(): string {
+  public getAccountInfo(): Account {
+    return this.accountInfo
+  }
+
+  public getLocalToken(): string {
     return String(localStorage.getItem('lastLogin'))
   }
 
-  public setAuthToken(token: string): void {
-    if (token === '') {
-      localStorage.removeItem('lastLogin')
-    } else {
-      localStorage.setItem('lastLogin', token)
-    }
-  }
-
   public setView(view: string): void {
+    this.snack.dismiss()
     this.view = view
   }
 
@@ -43,16 +41,15 @@ export class AccountService {
   }
 
   public setSession(token: string): void {
-    this.setAuthToken(token)
+    // save token and use it to retrieve account info
     if (token !== '') {
+      localStorage.setItem('lastLogin', token)
       this.getAccount(token)
+    // delete saved token from local storage and reset account info to blank
     } else {
-      this.session = new Account(null, '', '', [])
+      localStorage.removeItem('lastLogin')
+      this.accountInfo = new Account(null, '', [])
     }
-  }
-
-  public getSession(): Account {
-    return this.session
   }
 
   public login(username: string, password: string): void {
@@ -61,18 +58,21 @@ export class AccountService {
         this.setSession(response)
         this.setView('all')
       },
-      error: (error) => { this.prompt(error.error.message); console.log(error) }
+      error: (error) => { this.prompt(error.error.message) }
     })
   }
 
   public logout() {
-    // TODO delete token from both sides
+    this.http.delete(`http://localhost:8081/auth?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
+      next: (response) => {this.prompt('Session ended')},
+      error: (error) => {this.prompt(error.error.message)}
+    })
     this.setSession('')
     this.setView('welcome')
   }
 
   public add(username: string, password: string): void {
-    const newAccount = new Account(null, username, password, [])
+    const newAccount = new Credentials(username, password)
     this.http.post<string>(this.url, newAccount).pipe(take(1)).subscribe({
       next: (response) => {
         this.setSession(response)
@@ -82,11 +82,11 @@ export class AccountService {
   }
 
   public addRecipe(name: string, image: string, ingredients: Ingredient[], steps: string[]): void {
-    const newRecipe = new Recipe(null, name, this.session, image, ingredients, steps)
+    const newRecipe = new Recipe(null, name, this.accountInfo, image, ingredients, steps)
     this.http.post<Recipe>('http://localhost:8080/recipe', newRecipe).pipe(take(1)).subscribe({
       next: (response) => {
         response = this.instantiateRecipe(response)
-        this.session.recipes.push(response)
+        this.accountInfo.recipes.push(response)
         this.prompt("recipe added :)")
       },
       error: (error) => this.prompt(error.error.message)
@@ -94,11 +94,11 @@ export class AccountService {
   }
 
   public modRecipe(id: number | null, name: string, image: string, ingredients: Ingredient[], steps: string[]): void {
-    const updatedRecipe = new Recipe(id, name, this.session, image, ingredients, steps)
+    const updatedRecipe = new Recipe(id, name, this.accountInfo, image, ingredients, steps)
     this.http.put<Recipe>('http://localhost:8080/recipe', updatedRecipe).pipe(take(1)).subscribe({
       next: (response) => {
-        const recipeIndex = this.session.recipes.findIndex((r) => r.id === response.id)
-        this.session.recipes[recipeIndex] = this.instantiateRecipe(response)
+        const recipeIndex = this.accountInfo.recipes.findIndex((r) => r.id === response.id)
+        this.accountInfo.recipes[recipeIndex] = this.instantiateRecipe(response)
         this.prompt("recipe edit successful")
       },
       error: (error) => this.prompt(error.error.message)
@@ -107,16 +107,19 @@ export class AccountService {
 
   public getAccount(token: string) {
     this.http.get<Account>(`${this.url}?token=${token}`).pipe(take(1)).subscribe({
-      next: (response) => {this.session = new Account(response.id, response.username, '', response.recipes)},
-      error: (error) => {this.prompt('Could not retrieve account info from the database')}
+      next: (response) => {this.accountInfo = new Account(response.id, response.username, response.recipes)},
+      error: (error) => {
+        this.setView('welcome')
+        this.prompt('Session expired. Please log in again.')
+      }
     })
   }
 
   public modAccount(username: string, password: string): void {
-    const updatedAccount = new Account(this.session.id, username, password, this.session.recipes)
+    const updatedAccount = new Credentials(username, password)
     this.http.put<Account>(`${this.url}?token=${localStorage.getItem('lastLogin')}`, updatedAccount).pipe(take(1)).subscribe({
       next: () => {
-        this.session = updatedAccount
+        this.accountInfo.username = updatedAccount.username
         this.prompt("account update successful")
       },
       error: (error) => this.prompt(error.error.message)
@@ -124,7 +127,7 @@ export class AccountService {
   }
 
   public deleteAccount(): void {
-    this.http.delete(`${this.url}/${this.session.id}?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
+    this.http.delete(`${this.url}/${this.accountInfo.id}?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
       next: () => {
         this.setSession('')
         this.prompt("account deleted")
@@ -137,8 +140,8 @@ export class AccountService {
     this.http.delete(`http://localhost:8080/recipe/${id}?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
       next: () => {
         // delete recipe from memory if request successful
-        const recipeIndex = this.session.recipes.findIndex((r) => r.id === id)
-        this.session.recipes.splice(recipeIndex, 1)
+        const recipeIndex = this.accountInfo.recipes.findIndex((r) => r.id === id)
+        this.accountInfo.recipes.splice(recipeIndex, 1)
         this.prompt("recipe deleted")
       },
       error: (error) => this.prompt(error.error.message)
