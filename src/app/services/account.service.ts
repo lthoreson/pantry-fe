@@ -15,10 +15,22 @@ export class AccountService {
   private view: string = 'welcome'
 
   constructor(private http: HttpClient, private snack: MatSnackBar) {
-    const lastLogin = localStorage.getItem('lastLogin')
+    const lastLogin = this.getAuthToken()
     if (lastLogin) {
-      const account = JSON.parse(lastLogin)
-      this.login(account.username, account.password)
+      this.setSession(lastLogin)
+      this.setView('all')
+    }
+  }
+
+  public getAuthToken(): string {
+    return String(localStorage.getItem('lastLogin'))
+  }
+
+  public setAuthToken(token: string): void {
+    if (token === '') {
+      localStorage.removeItem('lastLogin')
+    } else {
+      localStorage.setItem('lastLogin', token)
     }
   }
 
@@ -30,12 +42,12 @@ export class AccountService {
     return this.view
   }
 
-  public setSession(user: Account): void {
-    this.session = user
-    if (user.id) {
-      localStorage.setItem('lastLogin', JSON.stringify(user))
+  public setSession(token: string): void {
+    this.setAuthToken(token)
+    if (token !== '') {
+      this.getAccount(token)
     } else {
-      localStorage.removeItem('lastLogin')
+      this.session = new Account(null, '', '', [])
     }
   }
 
@@ -44,9 +56,9 @@ export class AccountService {
   }
 
   public login(username: string, password: string): void {
-    this.http.get<Account>(`${this.url}?username=${username}&password=${password}`).pipe(take(1)).subscribe({
+    this.http.get<string>(`${this.url}?username=${username}&password=${password}`).pipe(take(1)).subscribe({
       next: (response) => {
-        this.setSession(new Account(response.id, response.username, response.password, response.recipes))
+        this.setSession(response)
         this.setView('all')
       },
       error: (error) => { this.prompt(error.error.message); console.log(error) }
@@ -54,13 +66,14 @@ export class AccountService {
   }
 
   public logout() {
-    this.setSession(new Account(null, '', '', []))
+    // TODO delete token from both sides
+    this.setSession('')
     this.setView('welcome')
   }
 
   public add(username: string, password: string): void {
     const newAccount = new Account(null, username, password, [])
-    this.http.post<Account>(this.url, newAccount).pipe(take(1)).subscribe({
+    this.http.post<string>(this.url, newAccount).pipe(take(1)).subscribe({
       next: (response) => {
         this.setSession(response)
       },
@@ -92,11 +105,18 @@ export class AccountService {
     })
   }
 
+  public getAccount(token: string) {
+    this.http.get<Account>(`${this.url}?token=${token}`).pipe(take(1)).subscribe({
+      next: (response) => {this.session = new Account(response.id, response.username, '', response.recipes)},
+      error: (error) => {this.prompt('Could not retrieve account info from the database')}
+    })
+  }
+
   public modAccount(username: string, password: string): void {
     const updatedAccount = new Account(this.session.id, username, password, this.session.recipes)
-    this.http.put<Account>(`${this.url}?username=${this.session.username}&password=${this.session.password}`, updatedAccount).pipe(take(1)).subscribe({
-      next: (response) => {
-        this.setSession(response)
+    this.http.put<Account>(`${this.url}?token=${localStorage.getItem('lastLogin')}`, updatedAccount).pipe(take(1)).subscribe({
+      next: () => {
+        this.session = updatedAccount
         this.prompt("account update successful")
       },
       error: (error) => this.prompt(error.error.message)
@@ -104,9 +124,9 @@ export class AccountService {
   }
 
   public deleteAccount(): void {
-    this.http.delete(`${this.url}/${this.session.id}?username=${this.session.username}&password=${this.session.password}`).pipe(take(1)).subscribe({
+    this.http.delete(`${this.url}/${this.session.id}?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
       next: () => {
-        this.setSession(new Account(null, '', '', []))
+        this.setSession('')
         this.prompt("account deleted")
       },
       error: (error) => this.prompt(error.error.message)
@@ -114,7 +134,7 @@ export class AccountService {
   }
 
   public deleteRecipe(id: number | null): void {
-    this.http.delete(`http://localhost:8080/recipe/${id}?username=${this.session.username}&password=${this.session.password}`).pipe(take(1)).subscribe({
+    this.http.delete(`http://localhost:8080/recipe/${id}?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
       next: () => {
         // delete recipe from memory if request successful
         const recipeIndex = this.session.recipes.findIndex((r) => r.id === id)
