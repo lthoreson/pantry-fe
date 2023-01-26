@@ -3,65 +3,55 @@
         <h1 class="inline">Recipes Shared With Me</h1>
         <div class="flex-container">
             <div *ngFor="let recipe of filter(account.getAccountInfo().recipes, true)" class="mat-card-container">
-                <mat-card (click)="openRecipe(recipe)" class="click-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"
-                            style="background-image: url({{recipe.image}});">
-                        </div>
-                        <mat-card-title>{{recipe.name}}</mat-card-title>
-                        <mat-card-subtitle [style]="recipe.missing().length ? 'color: red' : null">Missing
-                            {{recipe.missing().length}} ingredient(s)</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <mat-chip-listbox aria-label="ingredients of recipe">
-                            <mat-chip *ngFor="let i of recipe.ingredients">
-                                <img matChipAvatar src="{{i.item.image}}" alt="Photo of {{i.item.name}}" />
-                                {{i.item.name}}
-                            </mat-chip>
-                        </mat-chip-listbox>
-                    </mat-card-content>
+                <mat-card (click)="openRecipe(recipe)" class="click-card example-card"
+                    style="background-image: url({{recipe.image}});">
+                    <!-- darkens photo for text readability -->
+                    <div class="dark-overlay">
+                        <mat-card-header>
+                            <mat-card-title>{{recipe.name}}</mat-card-title>
+                        </mat-card-header>
+                    </div>
                 </mat-card>
                 <div class="card-buttons">
                     <button mat-icon-button color="primary"
                         (click)="account.modRecipe(recipe.id, recipe.name, recipe.image, recipe.ingredients, recipe.steps, false); $event.stopPropagation()"
                         class="edit-button"><mat-icon>add_circle</mat-icon></button>
-                    <button mat-icon-button color="primary" (click)="account.deleteRecipe(recipe.id); $event.stopPropagation()"
+                    <button mat-icon-button color="primary"
+                        (click)="account.deleteRecipe(recipe.id); $event.stopPropagation()"
                         class="share-button"><mat-icon>delete</mat-icon></button>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- available recipes section -->
     <section>
         <h1 class="inline">{{filtered ? 'Available Recipes' : 'All My Recipes'}}</h1>
+        <!-- filter by available/all -->
         <button mat-icon-button (click)="filtered = !filtered" color="{{filtered ? 'accent' : 'primary'}}"
             matTooltip="filter recipes by ingredient availability"
             matTooltipPosition="right"><mat-icon>filter_list</mat-icon></button>
+        <!-- card organizer -->
         <div class="flex-container">
             <div class="mat-card-container">
+                <!-- button to add recipe -->
                 <mat-card (click)="openAdd()" class="click-card">
                     <div class="add-icon">
                         <mat-icon [inline]="true" color="primary">add</mat-icon>
                     </div>
                 </mat-card>
             </div>
-            <div *ngFor="let recipe of filter(account.getAccountInfo().recipes, false)" class="mat-card-container">
-                <mat-card (click)="openRecipe(recipe)" class="click-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"
-                            style="background-image: url({{recipe.image}});">
-                        </div>
-                        <mat-card-title>{{recipe.name}}</mat-card-title>
-                        <mat-card-subtitle [style]="recipe.missing().length ? 'color: red' : null">Missing
-                            {{recipe.missing().length}} ingredient(s)</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <mat-chip-listbox aria-label="ingredients of recipe">
-                            <mat-chip *ngFor="let i of recipe.ingredients">
-                                <img matChipAvatar src="{{i.item.image}}" alt="Photo of {{i.item.name}}" />
-                                {{i.item.name}}
-                            </mat-chip>
-                        </mat-chip-listbox>
-                    </mat-card-content>
+            <!-- recipe cards, filtered if user only wants to see available recipes -->
+            <div class="mat-card-container" *ngFor="let recipe of filter(account.getAccountInfo().recipes, false)">
+                <mat-card (click)="openRecipe(recipe)" class="click-card example-card" matBadge="{{recipe.missing().length}}" matBadgeOverlap="true"
+                matBadgePosition="before" matBadgeColor="warn" [matBadgeHidden]="recipe.missing().length === 0"
+                    style="background-image: url({{recipe.image}});">
+                    <!-- darkens photo for text readability -->
+                    <div class="dark-overlay">
+                        <mat-card-header>
+                            <mat-card-title>{{recipe.name}}</mat-card-title>
+                        </mat-card-header>
+                    </div>
                 </mat-card>
                 <div class="card-buttons">
                     <button mat-icon-button color="primary" (click)="openEdit(recipe); $event.stopPropagation()"

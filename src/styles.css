@@ -18,19 +18,21 @@ section {
 .green-gradient {
     background: linear-gradient(to right, rgb(228, 255, 226), rgb(255, 231, 161)) !important;
     margin: 0;
+    width: 100%;
 }
 
 /* containers for recipe and item cards */
 .flex-container {
     display: flex;
     flex-wrap: wrap;
+    /* background-color: aliceblue; */
 }
 
 .mat-card-container {
-    position: relative;
     display: flex;
     margin-right: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
+    /* background-color: burlywood; */
 }
 
 .click-card:hover {
@@ -59,9 +61,17 @@ section {
     cursor: pointer;
 }
 
-/* avatar for item and recipe cards*/
-.example-header-image {
+.example-card {
+    color: white;
     background-size: cover;
+    overflow: hidden;
+    max-width: 400px;
+}
+
+.dark-overlay {
+    background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
+    height: 100%;
+    border-radius: inherit;
 }
 
 .inline {

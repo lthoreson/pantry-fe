@@ -1,14 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Ingredient } from 'src/app/data/Ingredient';
 import { Recipe } from 'src/app/data/Recipe';
 import { AccountService } from 'src/app/services/account.service';
 import { AddRecipeComponent } from '../add-recipe/add-recipe.component';
 import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
-import { LoginComponent } from '../login/login.component';
 import { RecipeComponent } from '../recipe/recipe.component';
-import { RegisterComponent } from '../register/register.component';
 import { ShareComponent } from '../share/share.component';
 
 @Component({

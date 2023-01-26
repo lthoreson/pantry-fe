@@ -10,18 +10,18 @@
                 </mat-card>
             </div>
             <div class="mat-card-container" *ngFor="let item of pantry.getPantry()">
-                <mat-card class="example-card" [style]="item.quantity === 0 ? 'opacity: .6;' : null">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"
-                            style="background-image: url({{item.image}});">
-                        </div>
-                        <mat-card-title>{{item.name}}</mat-card-title>
-                        <mat-card-subtitle>{{item.quantity}} left</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>Weight: {{item.weight}} oz.</p>
-                        <p>Calories: {{item.calories}}</p>
-                    </mat-card-content>
+                <mat-card class="example-card" matBadge="{{item.quantity}}" matBadgeOverlap="true"
+                    matBadgePosition="before" [matBadgeColor]="item.quantity ? 'primary' : 'warn'"
+                    [style]="'background-image: url(' +item.image+ '); opacity:' +outOfStockStyle(item.quantity)+ ';'">
+                    <div class="dark-overlay">
+                        <mat-card-header>
+                            <mat-card-title>{{item.name}}</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>Weight: {{item.weight}} oz.</p>
+                            <p>Calories: {{item.calories}}</p>
+                        </mat-card-content>
+                    </div>
                 </mat-card>
                 <div class="card-buttons">
                     <button mat-icon-button color="primary" (click)="openEdit(item)"><mat-icon>edit</mat-icon></button>
@@ -33,6 +33,7 @@
                     </button>
                 </div>
             </div>
+
         </div>
     </section>
 </div>

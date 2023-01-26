@@ -23,4 +23,8 @@ export class PantryComponent {
     const dialogRef = this.dialog.open(EditItemComponent, {restoreFocus: false, data: item});
   }
 
+  public outOfStockStyle(quantity: number): string {
+    return quantity === 0 ? '.6' : '1'
+  }
+
 }

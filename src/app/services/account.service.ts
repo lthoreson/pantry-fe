@@ -110,6 +110,7 @@ export class AccountService {
     this.http.delete(`${this.url}/${this.accountInfo.id}?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
       next: () => {
         this.setSession('')
+        this.setView('welcome')
         this.prompt("Account deleted")
       },
       error: (error) => this.prompt(error.error.message)

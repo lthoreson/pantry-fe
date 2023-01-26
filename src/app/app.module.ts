@@ -17,6 +17,8 @@ import { EditItemComponent } from './components/edit-item/edit-item.component';
 import { EditRecipeComponent } from './components/edit-recipe/edit-recipe.component';
 import { AccountComponent } from './components/account/account.component';
 import { ListComponent } from './components/list/list.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { ShareComponent } from './components/share/share.component';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
@@ -32,8 +34,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { ShareComponent } from './components/share/share.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { ShareComponent } from './components/share/share.component';
     MatStepperModule,
     MatChipsModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
