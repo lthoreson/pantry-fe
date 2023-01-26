@@ -9,7 +9,7 @@ export class Account {
         this.username = username
         const instantiateAll: Recipe[] = []
         for (let r of recipes) {
-            instantiateAll.push(new Recipe(r.id, r.name, r.account, r.image, r.ingredients, r.steps))
+            instantiateAll.push(new Recipe(r.id, r.name, r.account, r.image, r.ingredients, r.steps, r.shared))
         }
         this.recipes = instantiateAll
     }

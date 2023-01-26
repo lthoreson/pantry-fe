@@ -39,9 +39,16 @@ export class RecipeBookComponent {
     const dialogRef = this.dialog.open(ShareComponent, {restoreFocus: false, data: recipe});
   }
 
-  public filter(recipes: Recipe[]) {
+  public filter(recipes: Recipe[], shared: boolean) {
+    // filter by shared status
+    const shareFilter = recipes.filter((recipe) => recipe.shared === shared)
+    // return all shared recipes
+    if (shared) {
+      return shareFilter
+    }
+    // return available non-shared recipes
     if (this.filtered) {
-      return recipes.filter((recipe) => {
+      return shareFilter.filter((recipe) => {
         for (let i of recipe.ingredients) {
           if (i.weight > i.item.quantity) {
             return false
@@ -50,7 +57,8 @@ export class RecipeBookComponent {
         return true
       })
     }
-    return recipes
+    // return all non-shared recipes
+    return shareFilter
   }
 
 }
