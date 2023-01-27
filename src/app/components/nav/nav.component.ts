@@ -33,7 +33,7 @@ export class NavComponent {
   }
 
   openList() {
-    const dialogRef = this.dialog.open(ListComponent, {restoreFocus: false});
+    const dialogRef = this.dialog.open(ListComponent, {restoreFocus: false, autoFocus: false});
     dialogRef.afterClosed().subscribe(() => this.menuTrigger?.focus());
   }
 

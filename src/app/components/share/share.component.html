@@ -1,6 +1,9 @@
 <mat-dialog-content>
     <h1>Share {{recipe.name}} Recipe</h1>
+    
+</mat-dialog-content>
+<mat-dialog-actions>
     <button mat-raised-button *ngFor="let user of allAccounts" (click)="account.shareRecipe(recipe, user); disableButton(user.username)" id="{{user.username}}">
         {{user.username}}
     </button>
-</mat-dialog-content>
+</mat-dialog-actions>

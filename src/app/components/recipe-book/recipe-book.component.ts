@@ -33,7 +33,7 @@ export class RecipeBookComponent {
   }
 
   openShare(recipe: Recipe) {
-    const dialogRef = this.dialog.open(ShareComponent, {restoreFocus: false, data: recipe});
+    const dialogRef = this.dialog.open(ShareComponent, {restoreFocus: false, data: recipe, autoFocus: false});
   }
 
   public filter(recipes: Recipe[], shared: boolean) {
