@@ -35,6 +35,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatChipsModule,
     MatCheckboxModule,
     MatTooltipModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

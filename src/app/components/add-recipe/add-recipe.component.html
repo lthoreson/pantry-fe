@@ -18,7 +18,8 @@
         <!-- Image step -->
         <mat-step [stepControl]="imageFormGroup">
             <form [formGroup]="imageFormGroup">
-                <ng-template matStepLabel><a href="https://www.google.com/search?q={{name.value}}&tbm=isch" target="_blank">Copy an image address (click me)</a></ng-template>
+                <ng-template matStepLabel><a href="https://www.google.com/search?q={{name.value}}&tbm=isch"
+                        target="_blank">Copy an image address (click me)</a></ng-template>
                 <mat-form-field appearance="fill">
                     <mat-label>Image</mat-label>
                     <input matInput formControlName="secondCtrl"
@@ -32,24 +33,41 @@
             </form>
         </mat-step>
         <!-- Ingredients step -->
-        <mat-step [stepControl]="ingredientsFormGroup">
-            <form [formGroup]="ingredientsFormGroup">
+        <mat-step>
+            <!-- <form> -->
                 <ng-template matStepLabel>Add ingredients</ng-template>
-                <mat-form-field *ngFor="let ingredient of ingredients" appearance="outline">
-                    <mat-label>{{ingredient.item.name}}</mat-label>
-                    <input matInput type="number" min="0" formControlName="{{ingredient.item.name}}">
-                </mat-form-field>
+                <button mat-icon-button color="primary" (click)="addSelection()"><mat-icon>add_circle</mat-icon></button>
+                <div *ngFor="let i of selections">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Ingredient</mat-label>
+                        <input type="text"
+                               placeholder="Pick an ingredient"
+                               aria-label="ingredient name"
+                               matInput
+                               [matAutocomplete]="auto">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (onSelectionChange)="i.item = option">
+                            {{option.name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Qty</mat-label>
+                        <input matInput type="number" min="0" [value]="i.weight" [(ngModel)]="i.weight">
+                      </mat-form-field>
+                </div>
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>
                 </div>
-            </form>
+            <!-- </form> -->
         </mat-step>
         <!-- Recipe steps  step -->
         <mat-step [stepControl]="stepsFormGroup">
             <form [formGroup]="stepsFormGroup">
                 <ng-template matStepLabel>Add steps</ng-template>
-                <mat-form-field formArrayName="steps" *ngFor="let alias of steps.controls; let i = index" appearance="fill" class="step-input">
+                <mat-form-field formArrayName="steps" *ngFor="let alias of steps.controls; let i = index"
+                    appearance="fill" class="step-input">
                     <mat-label>Step {{i + 1}}</mat-label>
                     <textarea matInput [formControlName]="i"></textarea>
                 </mat-form-field>
@@ -74,10 +92,11 @@
     </mat-stepper>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close color="primary" [disabled]="!nameFormGroup.valid || !imageFormGroup.valid || !ingredientsFormGroup.valid" (click)="account.addRecipe(
+    <button mat-raised-button mat-dialog-close color="primary"
+        [disabled]="!nameFormGroup.valid || !imageFormGroup.valid || !itemsFormGroup.valid" (click)="account.addRecipe(
         name.value, 
         image.value, 
-        filterIngredients(),
+        filterSelections(),
         filterSteps()
         )">Submit</button>
 </mat-dialog-actions>
