@@ -7,7 +7,7 @@ body {
 
 body {
     margin: 0;
-    font-family: Rubik, "Helvetica Neue", sans-serif;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 section {
@@ -16,9 +16,8 @@ section {
 }
 
 .green-gradient {
-    background: linear-gradient(to right, rgb(228, 255, 226), rgb(255, 231, 161)) !important;
+    background-image: linear-gradient(to right, rgb(228, 255, 226), rgb(255, 231, 161)) !important;
     margin: 0;
-    width: 100%;
 }
 
 /* containers for recipe and item cards */
@@ -35,14 +34,43 @@ section {
     /* background-color: burlywood; */
 }
 
+.click-card {
+    height: 100%;
+    border-radius: inherit;
+}
+
+.click-card mat-card-actions {
+    display: none;
+    border-radius: inherit;
+    margin: 0 4rem;
+}
+
 .click-card:hover {
-    background-color: whitesmoke;
+    background-image: linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.2));
     cursor: pointer;
 }
 
-.card-buttons {
-    display: flex;
-    flex-direction: column;
+.click-card:hover mat-card-actions {
+    display: block;
+    border-radius: inherit;
+    background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
+}
+
+@media screen and (max-width: 1000px) {
+    .click-card mat-card-actions {
+        display: block;
+    }
+  }
+
+.recipe-action {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    border-radius: inherit;
+}
+
+.recipe-action:hover {
+    background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6));
 }
 
 /* plus sign inside the "add new __" buttons */
@@ -55,22 +83,42 @@ section {
     display: block;
 }
 
-/* indicates card is clickable */
-.add-card:hover {
-    background-color: whitesmoke;
-    cursor: pointer;
+mat-card {
+    background-size: cover;
+    color: white;
 }
 
-.example-card {
-    color: white;
-    background-size: cover;
-    overflow: hidden;
-    max-width: 400px;
+.recipe-card {
+    width: 400px;
+    height: 400px;
+}
+
+.item-card {
+    width: 200px;
+    height: 200px;
+}
+
+.card-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .dark-overlay {
-    background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
+    background-image: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3));
     height: 100%;
+    border-radius: inherit;
+}
+
+.dark-header {
+    background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5));
+    border-radius: inherit;
+    display: flex;
+    justify-content: center;
+    margin: .3rem 1rem;
+}
+
+.rounded-image {
     border-radius: inherit;
 }
 

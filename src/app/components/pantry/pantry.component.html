@@ -10,7 +10,7 @@
                 </mat-card>
             </div>
             <div class="mat-card-container" *ngFor="let item of pantry.getPantry()">
-                <mat-card class="example-card" matBadge="{{item.quantity}}" matBadgeOverlap="true"
+                <mat-card class="item-card" matBadge="{{item.quantity}}" matBadgeOverlap="true"
                     matBadgePosition="before" [matBadgeColor]="item.quantity ? 'primary' : 'warn'"
                     [style]="'background-image: url(' +item.image+ '); opacity:' +outOfStockStyle(item.quantity)+ ';'">
                     <div class="dark-overlay">

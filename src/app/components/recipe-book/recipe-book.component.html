@@ -3,23 +3,29 @@
         <h1 class="inline">Recipes Shared With Me</h1>
         <div class="flex-container">
             <div *ngFor="let recipe of filter(account.getAccountInfo().recipes, true)" class="mat-card-container">
-                <mat-card (click)="openRecipe(recipe)" class="click-card example-card"
-                    style="background-image: url({{recipe.image}});">
-                    <!-- darkens photo for text readability -->
-                    <div class="dark-overlay">
-                        <mat-card-header>
+                <mat-card (click)="openRecipe(recipe)" class="recipe-card" matBadge="{{recipe.missing().length}}"
+                    matBadgeOverlap="true" matBadgePosition="before" matBadgeColor="warn"
+                    [matBadgeHidden]="recipe.missing().length === 0" style="background-image: url({{recipe.image}});">
+                    <div class="click-card">
+                        <mat-card-header class="dark-header">
                             <mat-card-title>{{recipe.name}}</mat-card-title>
                         </mat-card-header>
+                        <mat-card-actions>
+                            <a class="recipe-action" *ngIf="recipe.missing().length === 0"
+                                (click)="openRecipe(recipe); $event.stopPropagation()"><mat-icon>whatshot</mat-icon>
+                                Make</a>
+                            <a class="recipe-action" *ngIf="recipe.missing().length > 0"
+                                (click)="openRecipe(recipe); $event.stopPropagation()"><mat-icon>shopping_cart</mat-icon>
+                                Shop</a>
+                            <a class="recipe-action" (click)="account.modRecipe(recipe.id, recipe.name, recipe.image, recipe.ingredients, recipe.steps, false); 
+                            $event.stopPropagation()">
+                                <mat-icon>add_circle</mat-icon> Add</a>
+                            <a class="recipe-action" (click)="account.deleteRecipe(recipe.id); $event.stopPropagation()"
+                                style="color:orangered;"><mat-icon>delete</mat-icon>
+                                Remove</a>
+                        </mat-card-actions>
                     </div>
                 </mat-card>
-                <div class="card-buttons">
-                    <button mat-icon-button color="primary"
-                        (click)="account.modRecipe(recipe.id, recipe.name, recipe.image, recipe.ingredients, recipe.steps, false); $event.stopPropagation()"
-                        class="edit-button"><mat-icon>add_circle</mat-icon></button>
-                    <button mat-icon-button color="primary"
-                        (click)="account.deleteRecipe(recipe.id); $event.stopPropagation()"
-                        class="share-button"><mat-icon>delete</mat-icon></button>
-                </div>
             </div>
         </div>
     </section>
@@ -43,22 +49,28 @@
             </div>
             <!-- recipe cards, filtered if user only wants to see available recipes -->
             <div class="mat-card-container" *ngFor="let recipe of filter(account.getAccountInfo().recipes, false)">
-                <mat-card (click)="openRecipe(recipe)" class="click-card example-card" matBadge="{{recipe.missing().length}}" matBadgeOverlap="true"
-                matBadgePosition="before" matBadgeColor="warn" [matBadgeHidden]="recipe.missing().length === 0"
-                    style="background-image: url({{recipe.image}});">
-                    <!-- darkens photo for text readability -->
-                    <div class="dark-overlay">
-                        <mat-card-header>
+                <mat-card (click)="openRecipe(recipe)" class="recipe-card" matBadge="{{recipe.missing().length}}"
+                    matBadgeOverlap="true" matBadgePosition="before" matBadgeColor="warn"
+                    [matBadgeHidden]="recipe.missing().length === 0" style="background-image: url({{recipe.image}});">
+                    <div class="click-card">
+                        <mat-card-header class="dark-header">
                             <mat-card-title>{{recipe.name}}</mat-card-title>
                         </mat-card-header>
+                        <mat-card-actions>
+                            <a class="recipe-action" *ngIf="recipe.missing().length === 0"
+                                (click)="openRecipe(recipe); $event.stopPropagation()"><mat-icon>whatshot</mat-icon>
+                                Make</a>
+                            <a class="recipe-action" *ngIf="recipe.missing().length > 0"
+                                (click)="openRecipe(recipe); $event.stopPropagation()"><mat-icon>shopping_cart</mat-icon>
+                                Shop</a>
+                            <a class="recipe-action"
+                                (click)="openEdit(recipe); $event.stopPropagation()"><mat-icon>edit</mat-icon> Edit</a>
+                            <a class="recipe-action"
+                                (click)="openShare(recipe); $event.stopPropagation()"><mat-icon>share</mat-icon>
+                                Share</a>
+                        </mat-card-actions>
                     </div>
                 </mat-card>
-                <div class="card-buttons">
-                    <button mat-icon-button color="primary" (click)="openEdit(recipe); $event.stopPropagation()"
-                        class="edit-button"><mat-icon>edit</mat-icon></button>
-                    <button mat-icon-button color="primary" (click)="openShare(recipe); $event.stopPropagation()"
-                        class="share-button"><mat-icon>share</mat-icon></button>
-                </div>
             </div>
         </div>
     </section>
