@@ -18,7 +18,7 @@
     </ol>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <mat-form-field>
+    <mat-form-field class="quantity">
         <mat-label>Batches</mat-label>
         <!-- input to multiply recipe -->
         <input matInput value="1" min="1" type="number" (change)="multiplyRecipe(multiple.value); checkPantry();" #multiple>

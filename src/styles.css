@@ -77,3 +77,8 @@ section {
 .inline {
     display: inline-block;
 }
+
+.quantity {
+    width: 100px;
+    margin: 0 20px;
+}

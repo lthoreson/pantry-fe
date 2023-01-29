@@ -2,10 +2,6 @@ img {
     max-width: 400px;
 }
 
-mat-form-field {
-    width: 100px;
-}
-
 mat-dialog-actions {
     display: flex;
     justify-content: space-between;

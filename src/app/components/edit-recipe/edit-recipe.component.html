@@ -18,7 +18,8 @@
         <!-- Image step -->
         <mat-step [stepControl]="imageFormGroup">
             <form [formGroup]="imageFormGroup">
-                <ng-template matStepLabel><a href="https://www.google.com/search?q={{name.value}}&tbm=isch" target="_blank">Edit image address (click me)</a></ng-template>
+                <ng-template matStepLabel><a href="https://www.google.com/search?q={{name.value}}&tbm=isch"
+                        target="_blank">Edit image address (click me)</a></ng-template>
                 <mat-form-field appearance="fill">
                     <mat-label>Image</mat-label>
                     <input matInput formControlName="secondCtrl"
@@ -32,24 +33,37 @@
             </form>
         </mat-step>
         <!-- Ingredients step -->
-        <mat-step [stepControl]="ingredientsFormGroup">
-            <form [formGroup]="ingredientsFormGroup">
-                <ng-template matStepLabel>Edit ingredients</ng-template>
-                <mat-form-field *ngFor="let ingredient of ingredients" appearance="outline">
-                    <mat-label>{{ingredient.item.name}}</mat-label>
-                    <input matInput type="number" min="0" formControlName="{{ingredient.item.name}}">
+        <mat-step>
+            <ng-template matStepLabel>Edit ingredients</ng-template>
+            <button mat-icon-button color="primary" (click)="addIngredient()"><mat-icon>add_circle</mat-icon></button>
+            <div *ngFor="let ingredient of ingredients">
+                <mat-form-field appearance="fill">
+                    <mat-label>Ingredient</mat-label>
+                    <input type="text" placeholder="Search ingredients" aria-label="ingredient name" matInput
+                        required="true" [matAutocomplete]="auto" (input)="submitSearch($event, ingredient);" [value]="ingredient.item.name">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of searchSuggestions" [value]="option.name"
+                            (onSelectionChange)="ingredient.item = option; searchSuggestions = filterOptions('')">
+                            {{option.name}}
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
+                <mat-form-field class="quantity">
+                    <mat-label>Qty</mat-label>
+                    <input matInput type="number" min="0" [value]="ingredient.weight" [(ngModel)]="ingredient.weight">
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
         </mat-step>
         <!-- Recipe steps  step -->
         <mat-step [stepControl]="stepsFormGroup">
             <form [formGroup]="stepsFormGroup">
                 <ng-template matStepLabel>Edit steps</ng-template>
-                <mat-form-field formArrayName="steps" *ngFor="let alias of steps.controls; let i = index" appearance="fill" class="step-input">
+                <mat-form-field formArrayName="steps" *ngFor="let alias of steps.controls; let i = index"
+                    appearance="fill" class="step-input">
                     <mat-label>Step {{i + 1}}</mat-label>
                     <textarea matInput [formControlName]="i"></textarea>
                 </mat-form-field>
@@ -74,7 +88,8 @@
     </mat-stepper>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close color="primary" [disabled]="!nameFormGroup.valid || !imageFormGroup.valid || !ingredientsFormGroup.valid" (click)="account.modRecipe(
+    <button mat-raised-button mat-dialog-close color="primary"
+        [disabled]="!nameFormGroup.valid || !imageFormGroup.valid" (click)="account.modRecipe(
         recipe.id,
         name.value, 
         image.value, 
@@ -82,5 +97,6 @@
         filterSteps(),
         recipe.shared
         )">Submit</button>
-    <button mat-raised-button mat-dialog-close color="warn" (click)="account.deleteRecipe(recipe.id)">Delete Recipe</button>
+    <button mat-raised-button mat-dialog-close color="warn" (click)="account.deleteRecipe(recipe.id)">Delete
+        Recipe</button>
 </mat-dialog-actions>

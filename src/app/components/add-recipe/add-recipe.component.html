@@ -34,33 +34,29 @@
         </mat-step>
         <!-- Ingredients step -->
         <mat-step>
-            <!-- <form> -->
-                <ng-template matStepLabel>Add ingredients</ng-template>
-                <button mat-icon-button color="primary" (click)="addSelection()"><mat-icon>add_circle</mat-icon></button>
-                <div *ngFor="let i of selections">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Ingredient</mat-label>
-                        <input type="text"
-                               placeholder="Pick an ingredient"
-                               aria-label="ingredient name"
-                               matInput
-                               [matAutocomplete]="auto">
-                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (onSelectionChange)="i.item = option">
+            <ng-template matStepLabel>Add ingredients</ng-template>
+            <button mat-icon-button color="primary" (click)="addIngredient()"><mat-icon>add_circle</mat-icon></button>
+            <div *ngFor="let ingredient of ingredients">
+                <mat-form-field appearance="fill">
+                    <mat-label>Ingredient</mat-label>
+                    <input type="text" placeholder="Search ingredients" aria-label="ingredient name" matInput
+                        required="true" [matAutocomplete]="auto" (input)="submitSearch($event, ingredient);" [value]="ingredient.item.name">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of searchSuggestions" [value]="option.name"
+                            (onSelectionChange)="ingredient.item = option; searchSuggestions = filterOptions('')">
                             {{option.name}}
-                          </mat-option>
-                        </mat-autocomplete>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <mat-label>Qty</mat-label>
-                        <input matInput type="number" min="0" [value]="i.weight" [(ngModel)]="i.weight">
-                      </mat-form-field>
-                </div>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            <!-- </form> -->
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Qty</mat-label>
+                    <input matInput type="number" min="0" [value]="ingredient.weight" [(ngModel)]="ingredient.weight">
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
         </mat-step>
         <!-- Recipe steps  step -->
         <mat-step [stepControl]="stepsFormGroup">
@@ -93,10 +89,10 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-raised-button mat-dialog-close color="primary"
-        [disabled]="!nameFormGroup.valid || !imageFormGroup.valid || !itemsFormGroup.valid" (click)="account.addRecipe(
+        [disabled]="!nameFormGroup.valid || !imageFormGroup.valid" (click)="account.addRecipe(
         name.value, 
         image.value, 
-        filterSelections(),
+        filterIngredients(),
         filterSteps()
         )">Submit</button>
 </mat-dialog-actions>
