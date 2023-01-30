@@ -1,11 +1,11 @@
 <!-- navbar -->
 <mat-toolbar class="green-gradient">
     <!-- menu to switch between views -->
-    <button mat-icon-button [matMenuTriggerFor]="menu" [disabled]="this.account.getView() === 'welcome'"><mat-icon>menu</mat-icon></button>
+    <button mat-icon-button [matMenuTriggerFor]="menu" [disabled]="this.account.getView() === views.welcome"><mat-icon>menu</mat-icon></button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="account.setView('all')">Show All</button>
-        <button mat-menu-item (click)="account.setView('recipes')">Show Recipes</button>
-        <button mat-menu-item (click)="account.setView('pantry')">Show Pantry</button>
+        <button mat-menu-item (click)="account.setView(views.all)">Show All</button>
+        <button mat-menu-item (click)="account.setView(views.recipes)">Show Recipes</button>
+        <button mat-menu-item (click)="account.setView(views.pantry)">Show Pantry</button>
         <button mat-menu-item *ngIf="account.getAccountInfo().id !== null" aria-label="Grocery List" (click)="openList()">Show Grocery List</button>
     </mat-menu>
 

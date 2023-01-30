@@ -42,7 +42,7 @@ section {
 .click-card mat-card-actions {
     display: none;
     border-radius: inherit;
-    margin: 0 4rem;
+    margin: 0 2rem;
 }
 
 .click-card:hover {

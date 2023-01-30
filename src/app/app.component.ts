@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Views } from './data/Views';
 import { AccountService } from './services/account.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { AccountService } from './services/account.service';
 })
 export class AppComponent {
   title = 'logan-thoreson-capstone-fe';
+  views = Views
 
   constructor(public account: AccountService) {}
 }

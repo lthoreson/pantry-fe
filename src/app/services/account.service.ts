@@ -6,6 +6,7 @@ import { Account } from '../data/Account';
 import { Credentials } from '../data/Credentials';
 import { Ingredient } from '../data/Ingredient';
 import { Recipe } from '../data/Recipe';
+import { Views } from '../data/Views';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,13 @@ import { Recipe } from '../data/Recipe';
 export class AccountService {
   private accountInfo: Account = new Account(null, '', [])
   private url: string = 'http://localhost:8081/account'
-  private view: string = 'welcome'
+  private view: Views = Views.welcome
 
   constructor(private http: HttpClient, private snack: MatSnackBar) {
     const lastLogin = this.getLocalToken()
     if (lastLogin !== 'null') {
       this.setSession(lastLogin)
-      this.setView('all')
+      this.setView(Views.all)
     }
   }
 
@@ -31,12 +32,12 @@ export class AccountService {
     return String(localStorage.getItem('lastLogin'))
   }
 
-  public setView(view: string): void {
+  public setView(view: Views): void {
     this.snack.dismiss()
     this.view = view
   }
 
-  public getView(): string {
+  public getView(): Views {
     return this.view
   }
 
@@ -45,7 +46,7 @@ export class AccountService {
     if (token !== '') {
       localStorage.setItem('lastLogin', token)
       this.getAccount(token)
-      this.setView('all')
+      this.setView(Views.all)
     // delete saved token from local storage and reset account info to blank
     } else {
       localStorage.removeItem('lastLogin')
@@ -68,7 +69,7 @@ export class AccountService {
       error: (error) => {this.prompt(error.error.message)}
     })
     this.setSession('')
-    this.setView('welcome')
+    this.setView(Views.welcome)
   }
 
   public add(username: string, password: string): void {
@@ -89,7 +90,7 @@ export class AccountService {
         this.accountInfo = new Account(response.id, response.username, response.recipes)
       },
       error: (error) => {
-        this.setView('welcome')
+        this.setView(Views.welcome)
         this.prompt('Session expired. Please log in again.')
       }
     })
@@ -110,7 +111,7 @@ export class AccountService {
     this.http.delete(`${this.url}/${this.accountInfo.id}?token=${localStorage.getItem('lastLogin')}`).pipe(take(1)).subscribe({
       next: () => {
         this.setSession('')
-        this.setView('welcome')
+        this.setView(Views.welcome)
         this.prompt("Account deleted")
       },
       error: (error) => this.prompt(error.error.message)
