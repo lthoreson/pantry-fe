@@ -60,7 +60,7 @@ mat-card {
     /* background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)); */
 }
 
-@media screen and (max-width: 1000px) {
+@media (hover: none) {
     .click-card mat-card-actions {
         display: block;
     }
