@@ -37,6 +37,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatTooltipModule,
     MatBadgeModule,
     MatAutocompleteModule,
-    MatDividerModule
+    MatDividerModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

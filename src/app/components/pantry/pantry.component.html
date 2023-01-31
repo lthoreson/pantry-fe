@@ -2,40 +2,42 @@
     <section>
         <h1>Pantry Items</h1>
         <div class="flex-container">
-            <div class="mat-card-container">
-                <mat-card *ngIf="account.getAccountInfo().id !== null" (click)="openAdd()" class="click-card">
-                    <div class="add-icon">
-                        <mat-icon [inline]="true" color="primary">add</mat-icon>
+            <!-- <div> -->
+                <mat-card *ngIf="account.getAccountInfo().id !== null" (click)="openAdd()"
+                    class="{{pantry.getPantry().length === 0 ? 'btn-glow' : ''}}">
+                    <div class="click-card">
+                        <div class="add-icon">
+                            <mat-icon [inline]="true" color="primary">add</mat-icon>
+                        </div>
                     </div>
                 </mat-card>
-            </div>
-            <div class="mat-card-container" *ngFor="let item of pantry.getPantry()">
-                <mat-card class="item-card" matBadge="{{item.quantity}}" matBadgeOverlap="true"
-                    matBadgePosition="before" [matBadgeColor]="item.quantity ? 'primary' : 'warn'"
-                    [style]="'background-image: url(' +item.image+ '); opacity:' +outOfStockStyle(item.quantity)+ ';'">
-                    <div class="dark-overlay">
-                        <mat-card-header>
+            <!-- </div> -->
+            <mat-card *ngFor="let item of pantry.getPantry()" class="item-card" matBadge="{{item.quantity}}"
+                matBadgeOverlap="true" matBadgePosition="before" [matBadgeColor]="item.quantity ? 'primary' : 'warn'"
+                [style]="'background-image: url(' +item.image+ '); opacity:' +outOfStockStyle(item.quantity)+ ';'">
+                <div class="dark-overlay">
+                    <mat-card-header>
+                        <mat-card-title-group>
                             <mat-card-title>{{item.name}}</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <ul>
-                                <li>{{item.weight}} oz. each</li>
-                                <li>{{item.calories}} calories</li>
-                            </ul>
-                        </mat-card-content>
-                    </div>
-                </mat-card>
-                <div class="card-buttons">
-                    <button mat-icon-button color="primary" (click)="openEdit(item)"><mat-icon>edit</mat-icon></button>
-                    <button mat-icon-button color="primary" (click)="pantry.incrementItem(item, true)">
-                        <mat-icon>add_circle</mat-icon>
-                    </button>
-                    <button mat-icon-button color="primary" (click)="pantry.incrementItem(item, false)">
-                        <mat-icon>remove_circle</mat-icon>
-                    </button>
+                            <button class="edit-button" mat-icon-button (click)="openEdit(item)"><mat-icon>edit</mat-icon></button>
+                        </mat-card-title-group>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <ul>
+                            <li>{{item.weight}} oz. each</li>
+                            <li>{{item.calories}} calories</li>
+                        </ul>
+                    </mat-card-content>
+                    <mat-card-actions class="card-buttons">
+                        <button (click)="pantry.incrementItem(item, false)">
+                            <mat-icon [inline]="true">remove</mat-icon>
+                        </button>
+                        <button (click)="pantry.incrementItem(item, true)">
+                            <mat-icon [inline]="true">add</mat-icon>
+                        </button>
+                    </mat-card-actions>
                 </div>
-            </div>
-
+            </mat-card>
         </div>
     </section>
 </div>
