@@ -1,6 +1,7 @@
 <div class="green-gradient">
     <section>
-        <h1>Pantry Items</h1>
+        <h1 class="inline">Pantry Items</h1>
+        <button mat-icon-button color="primary" (click)="pantry.importItems()" matTooltip="Import items from your recipes" matTooltipPosition="right"><mat-icon>sync</mat-icon></button>
         <div class="flex-container">
             <mat-card (click)="openAdd()" class="{{pantry.getPantry().items.length === 0 ? 'btn-glow' : ''}}">
                 <div class="click-card">

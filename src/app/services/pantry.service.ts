@@ -46,7 +46,7 @@ export class PantryService {
     })
   }
 
-  public addPantry(newPantry: Pantry) {
+  public addPantry(newPantry: Pantry): void {
     this.http.post<Pantry>(`${this.url2}?token=${this.account.getLocalToken()}`, newPantry).pipe(take(1)).subscribe({
       next: (response) => {
         const pantryIndex = this.pantryList.findIndex((p) => p.id === response.id)
@@ -56,6 +56,24 @@ export class PantryService {
       },
       error: (error) => {this.account.prompt(error.error.message)}
     })
+  }
+
+  public importItems(): void {
+    const allRecipeItems: Item[] = []
+    for (let r of this.account.getAccountInfo().recipes) {
+      for (let i of r.ingredients) {
+       allRecipeItems.push(i.item)
+      }
+    }
+    const itemNames = this.pantry.items.map((i) => i.name.toLowerCase())
+    const newItems = allRecipeItems.filter((i) => !itemNames.includes(i.name.toLowerCase()))
+    if (newItems.length === 0) {
+      return this.account.prompt('Nothing to import')
+    }
+    const deepCopy = JSON.parse(JSON.stringify(newItems))
+    deepCopy.forEach((item: Item) => {item.id = null; item.quantity = 0});
+    this.pantry.items = this.pantry.items.concat(deepCopy)
+    this.modPantry(this.pantry)
   }
 
   public modPantry(modifiedPantry: Pantry) {
