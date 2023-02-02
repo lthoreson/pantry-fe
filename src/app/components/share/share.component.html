@@ -1,9 +1,24 @@
 <mat-dialog-content>
     <h1>Share {{recipe.name}} Recipe</h1>
-    
+    <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>User</mat-label>
+          <input type="text"
+                 placeholder="Pick a user"
+                 aria-label="Number"
+                 matInput
+                 [formControl]="myControl"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of allAccounts" [value]="option.username">
+              {{option.username}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button *ngFor="let user of allAccounts" (click)="account.shareRecipe(recipe, user); disableButton(user.username)" id="{{user.username}}">
-        {{user.username}}
+    <button mat-raised-button (click)="account.shareRecipe(recipe, allAccounts[0]); submit.disabled = true;" [disabled]="allAccounts.length !== 1" #submit>
+        Share
     </button>
 </mat-dialog-actions>

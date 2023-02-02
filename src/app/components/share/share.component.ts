@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { take } from 'rxjs';
+import { map, Observable, startWith, Subscription, take } from 'rxjs';
 import { Account } from 'src/app/data/Account';
 import { Recipe } from 'src/app/data/Recipe';
 import { AccountService } from 'src/app/services/account.service';
@@ -12,21 +13,24 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./share.component.css'],
   template: 'passed in {{ recipe }}'
 })
-export class ShareComponent {
+export class ShareComponent implements OnDestroy {
   public allAccounts: Account[] = []
+  private allAccountsSubscription: Subscription
+  myControl = new FormControl('');
+  private myControlSubscription: Subscription
 
   constructor(@Inject(MAT_DIALOG_DATA) public recipe: Recipe, private http: HttpClient, public account: AccountService) {
-    this.getAllAccounts()
+    this.allAccountsSubscription = account.accountsObservable().subscribe({
+      next: (response) => {this.allAccounts = response}
+    })
+    this.myControlSubscription = this.myControl.valueChanges.subscribe({
+      next: (searchString) => {account.searchAccounts(searchString || '')}
+    })
   }
 
-  private getAllAccounts(): void {
-    this.http.get<Account[]>('http://localhost:8081/account').pipe(take(1)).subscribe({
-      next: (response) => {
-        this.allAccounts = response
-        const myIndex = this.allAccounts.findIndex((user) => user.id === this.account.getAccountInfo().id)
-        this.allAccounts.splice(myIndex, 1)
-      }
-    })
+  ngOnDestroy(): void {
+    this.allAccountsSubscription.unsubscribe()
+    this.myControlSubscription.unsubscribe()
   }
 
   public disableButton(buttonId: string) {

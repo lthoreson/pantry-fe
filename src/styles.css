@@ -171,5 +171,9 @@ mat-card {
 
 .quantity {
     width: 100px;
-    margin: 0 20px;
+    margin-right: 20px;
+}
+
+.long-field {
+    width: 100%;
 }

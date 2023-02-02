@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { take } from 'rxjs';
+import { Observable, Subject, take } from 'rxjs';
 import { Account } from '../data/Account';
 import { Credentials } from '../data/Credentials';
 import { Ingredient } from '../data/Ingredient';
@@ -15,12 +15,12 @@ export class AccountService {
   private accountInfo: Account = new Account(null, '', [])
   private url: string = 'http://localhost:8081/account'
   private view: Views = Views.welcome
+  private $allAccounts: Subject<Account[]> = new Subject()
 
   constructor(private http: HttpClient, private snack: MatSnackBar) {
     const lastLogin = this.getLocalToken()
     if (lastLogin !== 'null') {
       this.setSession(lastLogin)
-      this.setView(Views.all)
     }
   }
 
@@ -46,7 +46,7 @@ export class AccountService {
     if (token !== '') {
       localStorage.setItem('lastLogin', token)
       this.getAccount(token)
-      this.setView(Views.all)
+      this.setView(Views.pantryList)
     // delete saved token from local storage and reset account info to blank
     } else {
       localStorage.removeItem('lastLogin')
@@ -94,6 +94,22 @@ export class AccountService {
         this.prompt('Session expired. Please log in again.')
       }
     })
+  }
+
+  public searchAccounts(searchString: string): void {
+    this.http.get<Account[]>(`${this.url}?search=${searchString}`).pipe(take(1)).subscribe({
+      next: (response) => {
+        const myIndex = response.findIndex((user) => user.id === this.accountInfo.id)
+        if (myIndex !== -1) {
+          response.splice(myIndex, 1)
+        }
+        this.$allAccounts.next(response)
+      }
+    })
+  }
+
+  public accountsObservable(): Observable<Account[]> {
+    return this.$allAccounts.asObservable()
   }
 
   public modAccount(username: string, password: string): void {

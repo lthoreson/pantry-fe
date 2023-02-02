@@ -19,6 +19,9 @@ import { AccountComponent } from './components/account/account.component';
 import { ListComponent } from './components/list/list.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { ShareComponent } from './components/share/share.component';
+import { PantryListComponent } from './components/pantry-list/pantry-list.component';
+import { AddPantryComponent } from './components/add-pantry/add-pantry.component';
+import { EditPantryComponent } from './components/edit-pantry/edit-pantry.component';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
@@ -38,6 +41,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatRippleModule} from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -55,7 +59,10 @@ import {MatRippleModule} from '@angular/material/core';
     AccountComponent,
     ListComponent,
     WelcomeComponent,
-    ShareComponent
+    ShareComponent,
+    PantryListComponent,
+    AddPantryComponent,
+    EditPantryComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +87,8 @@ import {MatRippleModule} from '@angular/material/core';
     MatBadgeModule,
     MatAutocompleteModule,
     MatDividerModule,
-    MatRippleModule
+    MatRippleModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

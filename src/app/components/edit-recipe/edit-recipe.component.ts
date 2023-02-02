@@ -37,7 +37,7 @@ export class EditRecipeComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public recipe: Recipe, public account: AccountService, public pantry: PantryService, private fb: FormBuilder) {
     // Build ingredient list from pantry items.
-    this.items = this.pantry.getPantry()
+    this.items = this.pantry.getPantry().items
 
     // copy steps from recipe into form controls
     for (let step of this.recipe.steps) {

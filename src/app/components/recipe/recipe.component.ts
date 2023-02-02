@@ -52,7 +52,7 @@ export class RecipeComponent {
   public requestItems(): void {
     for (let ingredient of this.multipleRecipe.ingredients) {
       if (!this.enoughOfItem(ingredient)) {
-        const target = this.pantry.getPantry().find((i) => i.id === ingredient.item.id)
+        const target = this.pantry.getPantry().items.find((i) => i.id === ingredient.item.id)
         if (target) {
           target.demand += ingredient.weight - target.quantity
           this.pantry.modItem(target)

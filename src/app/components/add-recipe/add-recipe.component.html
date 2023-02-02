@@ -6,7 +6,7 @@
         <mat-step [stepControl]="nameFormGroup">
             <form [formGroup]="nameFormGroup">
                 <ng-template matStepLabel>Enter the recipe name</ng-template>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="fill" class="long-field">
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Alaskan Bull Worm" formControlName="firstCtrl" required #name>
                 </mat-form-field>
@@ -20,7 +20,7 @@
             <form [formGroup]="imageFormGroup">
                 <ng-template matStepLabel><a href="https://www.google.com/search?q={{name.value}}&tbm=isch"
                         target="_blank">Copy an image address (click me)</a></ng-template>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="fill" class="long-field">
                     <mat-label>Image</mat-label>
                     <input matInput formControlName="secondCtrl"
                         placeholder="https://upload.wikimedia.org/wikipedia/commons/0/0f/Hungarian_goulash_soup.jpg"
@@ -48,7 +48,7 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
-                <mat-form-field>
+                <mat-form-field class="quantity">
                     <mat-label>Qty</mat-label>
                     <input matInput type="number" min="0" [value]="ingredient.weight" [(ngModel)]="ingredient.weight">
                 </mat-form-field>

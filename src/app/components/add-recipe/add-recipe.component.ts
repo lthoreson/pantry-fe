@@ -31,7 +31,7 @@ export class AddRecipeComponent {
   
   constructor(public account: AccountService, public pantry: PantryService, private fb: FormBuilder) {
     // Build ingredient list from pantry items.
-    this.items = this.pantry.getPantry()
+    this.items = this.pantry.getPantry().items
     
     this.searchSuggestions = this.filterOptions('')
   }

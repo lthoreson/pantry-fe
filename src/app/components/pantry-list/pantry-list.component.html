@@ -1,0 +1,29 @@
+<div class="green-gradient">
+    <section>
+        <h1>My Pantries</h1>
+        <div class="flex-container">
+            <mat-card (click)="openAdd()" class="{{pantry.getPantryList().length === 0 ? 'btn-glow' : ''}}">
+                <div class="click-card">
+                    <div class="add-icon">
+                        <mat-icon [inline]="true" color="primary">add</mat-icon>
+                    </div>
+                </div>
+            </mat-card>
+            <mat-card *ngFor="let p of pantry.getPantryList()" class="pantry-card click-card" (click)="openPantry(p.id)">
+                <mat-card-header>
+                    <mat-card-title-group>
+                        <mat-card-title>{{p.name}}</mat-card-title>
+                        <button class="edit-button" mat-icon-button (click)="openEdit(p); $event.stopPropagation()"><mat-icon>edit</mat-icon></button>
+                    </mat-card-title-group>
+                </mat-card-header>
+                <mat-card-content>
+                    <h3>Owner: {{p.owner.username}}</h3>
+                    <h3>Members</h3>
+                    <ul>
+                        <li *ngFor="let member of p.members">{{member.username}}</li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </section>
+</div>

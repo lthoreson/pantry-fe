@@ -25,7 +25,7 @@ export class ListComponent {
 
   public filterItems(): Item[] {
     // filter requested items from pantry
-    return this.pantry.getPantry().filter((i) => i.demand > 0)
+    return this.pantry.getPantry().items.filter((i) => i.demand > 0)
   }
 
   public groceryRun(): void {
