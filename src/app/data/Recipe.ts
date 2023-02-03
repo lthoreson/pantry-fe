@@ -9,7 +9,8 @@ export class Recipe {
     public ingredients: Ingredient[]
     public steps: string[]
     public shared: boolean
-    constructor(id: number | null, name: string, account: Account, image: string, ingredients: Ingredient[], steps: string[], shared: boolean) {
+    public pantryId: number | null
+    constructor(id: number | null, name: string, account: Account, image: string, ingredients: Ingredient[], steps: string[], shared: boolean, pantryId: number | null) {
         this.id = id
         this.name = name
         this.account = account
@@ -17,6 +18,7 @@ export class Recipe {
         this.ingredients = ingredients
         this.steps = steps
         this.shared = shared
+        this.pantryId = pantryId
     }
 
     public missing(): Ingredient[] {

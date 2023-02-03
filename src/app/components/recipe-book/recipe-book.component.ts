@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Recipe } from 'src/app/data/Recipe';
 import { AccountService } from 'src/app/services/account.service';
+import { PantryService } from 'src/app/services/pantry.service';
 import { AddRecipeComponent } from '../add-recipe/add-recipe.component';
 import { EditRecipeComponent } from '../edit-recipe/edit-recipe.component';
 import { RecipeComponent } from '../recipe/recipe.component';
@@ -17,7 +18,7 @@ export class RecipeBookComponent {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger | undefined;
   public filtered = false
   
-  constructor(private dialog: MatDialog, public account: AccountService) {
+  constructor(private dialog: MatDialog, public account: AccountService, public pantry: PantryService) {
   }
 
   openAdd() {
@@ -39,6 +40,7 @@ export class RecipeBookComponent {
   public filter(recipes: Recipe[], shared: boolean) {
     // filter by shared status
     const shareFilter = recipes.filter((recipe) => recipe.shared === shared)
+    const inPantry = (recipe: Recipe) => recipe.pantryId === this.pantry.getPantry().id
     // return all shared recipes
     if (shared) {
       return shareFilter
@@ -46,16 +48,12 @@ export class RecipeBookComponent {
     // return available non-shared recipes
     if (this.filtered) {
       return shareFilter.filter((recipe) => {
-        for (let i of recipe.ingredients) {
-          if (i.weight > i.item.quantity) {
-            return false
-          }
-        }
-        return true
+        const available = recipe.missing().length < 0
+        return available && inPantry(recipe)
       })
     }
     // return all non-shared recipes
-    return shareFilter
+    return shareFilter.filter((recipe) => inPantry(recipe))
   }
 
 }

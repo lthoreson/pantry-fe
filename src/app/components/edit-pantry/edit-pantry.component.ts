@@ -59,14 +59,12 @@ export class EditPantryComponent implements OnDestroy {
   }
 
   public bequeath(member: Account): void {
-    console.log(this.modifiedPantry)
     const memberIndex = this.modifiedPantry.members.findIndex((m) => m.id === member.id)
     if (memberIndex !== -1) {
       this.modifiedPantry.members.splice(memberIndex, 1)
       this.modifiedPantry.owner = member
       this.modifiedPantry.members.push(this.account.getAccountInfo())
     }
-    console.log(this.modifiedPantry)
   }
 
 }

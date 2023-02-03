@@ -134,8 +134,8 @@ export class AccountService {
     })
   }
 
-  public addRecipe(name: string, image: string, ingredients: Ingredient[], steps: string[]): void {
-    const newRecipe = new Recipe(null, name, this.accountInfo, image, ingredients, steps, false)
+  public addRecipe(name: string, image: string, ingredients: Ingredient[], steps: string[], pantryId: number | null): void {
+    const newRecipe = new Recipe(null, name, this.accountInfo, image, ingredients, steps, false, pantryId)
     this.http.post<Recipe>('http://localhost:8080/recipe', newRecipe).pipe(take(1)).subscribe({
       next: (response) => {
         response = this.instantiateRecipe(response)
@@ -147,7 +147,7 @@ export class AccountService {
   }
 
   public shareRecipe(recipe: Recipe, toAccount: Account) {
-    const newRecipe = new Recipe(null, `${this.accountInfo.username}'s ${recipe.name}`, toAccount, recipe.image, recipe.ingredients, recipe.steps, true)
+    const newRecipe = new Recipe(null, `${this.accountInfo.username}'s ${recipe.name}`, toAccount, recipe.image, recipe.ingredients, recipe.steps, true, recipe.pantryId)
     this.http.post<Recipe>('http://localhost:8080/recipe', newRecipe).pipe(take(1)).subscribe({
       next: (response) => {
         this.prompt("Recipe shared :)")
@@ -156,11 +156,11 @@ export class AccountService {
     })
   }
 
-  public modRecipe(id: number | null, name: string, image: string, ingredients: Ingredient[], steps: string[], shared: boolean): void {
+  public modRecipe(id: number | null, name: string, image: string, ingredients: Ingredient[], steps: string[], shared: boolean, pantryId: number | null): void {
     const recipeIndex = this.accountInfo.recipes.findIndex((r) => r.id === id)
     const currentRecipe = this.accountInfo.recipes[recipeIndex]
     // delays client update until response is received
-    const updatedRecipe = new Recipe(id, name, this.accountInfo, image, ingredients, steps, shared)
+    const updatedRecipe = new Recipe(id, name, this.accountInfo, image, ingredients, steps, shared, pantryId)
     this.http.put<Recipe>('http://localhost:8080/recipe', updatedRecipe).pipe(take(1)).subscribe({
       next: (response) => {
         this.accountInfo.recipes[recipeIndex] = this.instantiateRecipe(response)
@@ -187,6 +187,6 @@ export class AccountService {
   }
 
   public instantiateRecipe(response: Recipe): Recipe {
-    return new Recipe(response.id, response.name, response.account, response.image, response.ingredients, response.steps, response.shared)
+    return new Recipe(response.id, response.name, response.account, response.image, response.ingredients, response.steps, response.shared, response.pantryId)
   }
 }

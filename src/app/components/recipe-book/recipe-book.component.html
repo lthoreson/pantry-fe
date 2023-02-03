@@ -17,7 +17,7 @@
                         <a class="recipe-action" *ngIf="recipe.missing().length > 0"
                             (click)="openRecipe(recipe); $event.stopPropagation()"><mat-icon>shopping_cart</mat-icon>
                             Shop</a>
-                        <a class="recipe-action" (click)="account.modRecipe(recipe.id, recipe.name, recipe.image, recipe.ingredients, recipe.steps, false); 
+                        <a class="recipe-action" (click)="account.modRecipe(recipe.id, recipe.name, recipe.image, recipe.ingredients, recipe.steps, false, pantry.getPantry().id); 
                             $event.stopPropagation()">
                             <mat-icon>add_circle</mat-icon> Add</a>
                         <a class="recipe-action" (click)="account.deleteRecipe(recipe.id); $event.stopPropagation()"

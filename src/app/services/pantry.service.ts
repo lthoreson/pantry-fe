@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { Item } from '../data/Item';
 import { Pantry } from '../data/Pantry';
 import { Recipe } from '../data/Recipe';
@@ -11,6 +11,7 @@ import { AccountService } from './account.service';
 })
 export class PantryService {
   private pantry: Pantry = new Pantry(null, '', this.account.getAccountInfo())
+  private $items: Subject<Item[]> = new Subject()
   private pantryList: Pantry[] = []
   private url: string = 'http://localhost:8080/item'
   private url2: string = 'http://localhost:8080/pantry'
@@ -60,28 +61,60 @@ export class PantryService {
 
   public importItems(): void {
     const allRecipeItems: Item[] = []
+    // pull items from all the recipes
     for (let r of this.account.getAccountInfo().recipes) {
       for (let i of r.ingredients) {
        allRecipeItems.push(i.item)
       }
     }
+    // list item names
     const itemNames = this.pantry.items.map((i) => i.name.toLowerCase())
+    // filter out existing pantry items
     const newItems = allRecipeItems.filter((i) => !itemNames.includes(i.name.toLowerCase()))
-    if (newItems.length === 0) {
-      return this.account.prompt('Nothing to import')
-    }
+    // if (newItems.length === 0) {
+    //   return this.account.prompt('Nothing to import')
+    // }
     const deepCopy = JSON.parse(JSON.stringify(newItems))
+    // make new item objects
     deepCopy.forEach((item: Item) => {item.id = null; item.quantity = 0});
+    // add to local pantry
     this.pantry.items = this.pantry.items.concat(deepCopy)
+    // request to update pantry database
     this.modPantry(this.pantry)
+    this.$items.pipe(take(1)).subscribe({
+      next: (dbItems) => {
+        // on server response, change ids for the recipe's items so it can be used with current pantry
+        for (let rItem of allRecipeItems) {
+          const found = dbItems.find((i) => i.name.toLowerCase() === rItem.name.toLowerCase())
+          if (found) {
+            rItem.id = found.id
+          }
+        }
+        for (let r of this.account.getAccountInfo().recipes) {
+          this.account.modRecipe(r.id,r.name, r.image, r.ingredients, r.steps, r.shared, this.pantry.id)
+        }
+      }
+    })
   }
 
   public modPantry(modifiedPantry: Pantry) {
-    console.log(modifiedPantry)
     this.http.put<Pantry>(`${this.url2}?token=${this.account.getLocalToken()}`, modifiedPantry).pipe(take(1)).subscribe({
       next: (response) => {
         const pantryIndex = this.pantryList.findIndex((p) => p.id === response.id)
         this.pantryList[pantryIndex] = response
+        this.pantry = response
+        this.$items.next(response.items)
+        this.account.prompt('Success!')
+      },
+      error: (error) => {this.account.prompt(error.error.message)}
+    })
+  }
+
+  public deletePantry(trash: Pantry): void {
+    this.http.delete(`${this.url2}/${trash.id}?token=${this.account.getLocalToken()}`).pipe(take(1)).subscribe({
+      next: (response) => {
+        const pantryIndex = this.pantryList.findIndex((p) => p.id === trash.id)
+        this.pantryList.splice(pantryIndex, 1)
         this.account.prompt('Success!')
       },
       error: (error) => {this.account.prompt(error.error.message)}
@@ -105,11 +138,11 @@ export class PantryService {
   public takeItems(recipe: Recipe) {
     this.http.put<Item[]>(this.url+'/take', recipe).pipe(take(1)).subscribe({
       next: (response) => {
-        this.pantry.items = response
         this.account.getAccount(this.account.getLocalToken())
+        this.loadPantry(Number(this.pantry.id))
         this.account.prompt(`Ingredients for ${recipe.name} were removed from the pantry`)
       },
-      error: (error) => {this.account.prompt(error.error.message)}
+      error: (error) => {this.account.prompt('')}
     })
   }
 
