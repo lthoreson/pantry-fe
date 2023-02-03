@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject, take } from 'rxjs';
+import { Account } from '../data/Account';
 import { Item } from '../data/Item';
 import { Pantry } from '../data/Pantry';
 import { Recipe } from '../data/Recipe';
@@ -119,6 +120,37 @@ export class PantryService {
       },
       error: (error) => {this.account.prompt(error.error.message)}
     })
+  }
+
+  public deleteAccount(trash: Account) {
+    // delete all recipes
+    for (let r of trash.recipes) {
+      this.account.deleteRecipe(r.id)
+    }
+    // delete owned pantries
+    for (let p of this.pantryList) {
+      if (p.owner.id === trash.id) {
+        this.deletePantry(p)
+      }
+    }
+    // remove account from pantry memberships
+    for (let p of this.pantryList) {
+      const trashIndex = p.members.findIndex((m) => m.id === trash.id)
+      if (trashIndex !== -1) {
+        p.members.splice(trashIndex, 1)
+        this.modPantry(p)
+      }
+    }
+    this.account.deleteAccount() //
+    // try to delete when requests finish
+    // this.$items.pipe(take(count)).subscribe({
+    //   next: () => {
+    //     done++
+    //     if (done === count) {
+    //       this.account.deleteAccount()
+    //     }
+    //   }
+    // })
   }
 
   public add(newItem: Item) {

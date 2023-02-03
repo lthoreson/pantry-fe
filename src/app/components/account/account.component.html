@@ -11,5 +11,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-raised-button mat-dialog-close color="primary" (click)="account.modAccount(username.value, password.value)">Submit</button>
-    <button mat-raised-button mat-dialog-close color="warn" (click)="account.deleteAccount()">Delete Account</button>
+    <button mat-raised-button mat-dialog-close color="warn" (click)="pantry.deleteAccount(account.getAccountInfo())">Delete Account</button>
 </mat-dialog-actions>

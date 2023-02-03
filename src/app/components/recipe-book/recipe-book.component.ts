@@ -48,7 +48,7 @@ export class RecipeBookComponent {
     // return available non-shared recipes
     if (this.filtered) {
       return shareFilter.filter((recipe) => {
-        const available = recipe.missing().length < 0
+        const available = recipe.missing().length === 0
         return available && inPantry(recipe)
       })
     }
