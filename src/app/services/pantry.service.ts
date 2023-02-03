@@ -218,8 +218,6 @@ export class PantryService {
     const deleted = this.pantry.items.splice(deleteIndex, 1)[0]
     this.http.put<Pantry>(`${this.url2}?token=${this.account.getLocalToken()}`, this.pantry).pipe(take(1)).subscribe({
       next: (response) => {
-        const deletedIndex = this.pantry.items.findIndex((i) => i.id === id)
-        this.pantry.items.splice(deletedIndex, 1)
         this.account.prompt('deleted item')
       },
       error: (error) => {
